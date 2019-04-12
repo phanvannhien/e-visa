@@ -1,0 +1,11 @@
+.blog-item{
+  background: #FFF;
+  height: 100%;
+  .blog-meta{
+    padding: 1rem;
+    .post-excerpt{
+      font-size: 0.9rem;
+      color: #666;
+    }
+  }
+}

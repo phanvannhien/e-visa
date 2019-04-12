@@ -1,0 +1,270 @@
+#open-mobile-menu{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 2rem;
+  color: #518166;
+  font-family: "LineAwesome";
+  i{
+    &:before{
+      content: "\F131";
+    }
+  }
+
+  &.active{
+    i{
+      &:before{
+        content: "\f191";
+      }
+    }
+
+  }
+
+  @include media-breakpoint-down(sm){
+    display: flex;
+  }
+  @include media-breakpoint-up(md){
+    display: none;
+  }
+
+}
+
+/**
+HEADER
+ */
+
+#app.overlay{
+  position: relative;
+  &:after{
+    content: '';
+    background: rgba( 0,0,0,0.5 );
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:1;
+  }
+}
+
+header{
+  box-shadow: 1px -3px 9px 0px #777;
+  position: relative;
+  z-index: 1;
+  transition: all 500ms ease;
+  margin-bottom: 1rem;
+
+  #logo{
+    img{
+      max-height: 3rem;
+      margin: 1rem 0;
+    }
+  }
+
+  &.sticky{
+    position: fixed;
+    top: 0 ;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 999;
+    #logo{
+      img{
+        max-height: 1.5rem;
+      }
+    }
+  }
+
+  @include media-breakpoint-down(sm){
+    #logo{
+      img{
+        max-height: 1.5rem;
+      }
+    }
+  }
+
+  #header-main{
+    background-image: url("~/images/bg-head.png");
+    background-repeat: no-repeat;
+    background-position: center right;
+    color: #FFF;
+
+  }
+
+}
+
+
+/**
+MAIN NAV
+ */
+
+#header-nav{
+  background: $primary;
+}
+
+#main-navigation{
+
+  @include media-breakpoint-down(sm){
+    position: fixed ;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    width: 280px;
+    background: $blue;
+    z-index: 999;
+    padding: 1rem 1rem;
+    display: none;
+    overflow-y: auto;
+    &:before{
+      content: '';
+    }
+
+    ul{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      .mega-wrapper{
+        max-width: 100% !important;
+
+      }
+      .container{
+        padding: 0;
+      }
+
+      li{
+
+
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+        &:last-child{
+          border-bottom: 0;
+        }
+        >span.arrow{
+          position: absolute;
+          right: 0;
+          width: 25px;
+          height: 25px;
+          top: 20px;
+          right: 0;
+          /* background: #37a7d6; */
+          margin-top: -11px;
+          line-height: 20px;
+          text-align: center;
+          color: #FFF;
+          z-index: 1;
+          display: block;
+          font-size: 1.5rem;
+          &:hover{
+            cursor: pointer;
+          }
+        }
+
+        .fly{
+          display: none;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          padding-left: 16px;
+        }
+        a{
+          color: #FFF;
+          display: block;
+          padding: 0.5rem 0;
+          margin-right: 24px;
+        }
+      }
+    }
+
+  }
+
+  @include media-breakpoint-up(md){
+    height: 100%;
+
+    > ul{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      > li{
+        position: relative;
+        float: left;
+        border-right: 1px solid rgba(255, 255, 255, 0.5);
+
+        &:hover{
+          > a{
+            background: lighten( $primary, 5% );
+          }
+        }
+        > a{
+          color: #FFF;
+          text-transform: uppercase;
+          font-weight: 500;
+          display: block;
+          padding: 0.5rem 1rem;
+
+          .menu-icon{
+            display: block;
+            text-align: center;
+            font-size: 1.1rem;
+          }
+        }
+
+        >ul{
+          background: #FFF;
+          list-style: none;
+          padding: 0;
+          position: absolute;
+          display: none;
+          left: 100%;
+          top: 0;
+          z-index:999;
+          width: 20rem;
+          box-shadow: 1px 1px 9px 1px #aaa;
+          li{
+            &:hover{
+              a{
+                background: #f5f5f5;
+              }
+            }
+            a{
+              display: block;
+              padding: 0rem 1rem;
+            }
+          }
+        }
+
+        ul{
+          li{
+            line-height: 2.2rem;
+
+          }
+        }
+
+
+
+
+      }
+    }
+  }
+
+}
+
+#search-form{
+
+}
+
+#user-nav{
+  float: right;
+  color: #FFF;
+  padding: 0.5rem 1rem;
+  a{
+    color: #FFF;
+  }
+}
+
+.breadcrumb{
+  .breadcrumb-item{
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,48 @@
+.tree-category{
+  ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #FFF;
+    .has-children > a{
+      background: #e5e5e5;
+    }
+    li{
+      &:last-child{
+        a{
+          border-bottom: 0;
+        }
+
+      }
+      a{
+        padding: 0.5rem 1rem;
+        display: block;
+        font-weight: 400;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #e5e5e5;
+
+      }
+    }
+    .sub-cat{
+      li{
+        a{
+          &:before{
+            font: normal normal normal 16px/1 "LineAwesome";
+            content: "\f121";
+            margin-right: 5px;
+          }
+
+        }
+      }
+    }
+  }
+}
+
+.block-sidebar{
+  .block-sidebar-header{
+    padding: 1rem;
+  }
+  .block-sidebar-body{
+    padding: 1rem;
+  }
+}
