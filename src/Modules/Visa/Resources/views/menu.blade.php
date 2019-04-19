@@ -31,3 +31,9 @@
     </ul>
 
 </li>
+
+
+<li class="{{ ($currentRouteName->getName() == 'order.index') ? 'active' : '' }}">
+    <a href="{{ route('order.index') }}">
+        <i class="fa fa-shopping-bag"></i> <span>@lang('visa::order.order')</span></a>
+</li>

@@ -1,5 +1,8 @@
 <?php
 return [
+    'system' => 'System',
+    'clear_cache' => 'Clear cache',
+    'generate_sitemap' => 'Generate site-map',
     'dashboard' => 'Dashboard',
     'appearance' => 'appearance',
     'yes' => 'Yes',

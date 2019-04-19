@@ -5,7 +5,7 @@
     <section class="content-header">
         <h1>
             @lang('blog.category')
-            <a class="btn btn-success btn-sm" href="{{ route('blog-category.create') }}">{{ trans('app.create') }}</a>
+            <a class="btn btn-success btn-sm" href="{{ route('blog-category.create') }}"><i class="fa fa-plus"></i> {{ trans('app.create') }}</a>
         </h1>
     </section>
     <!-- Main content -->
@@ -38,7 +38,7 @@
                                 <label for="">@lang('category.category_image')</label><br>
                                 <span class="input-group-btn">
                                      <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                                       <i class="fa fa-picture-o"></i> Choose
+                                       <i class="fa fa-image"></i> Choose
                                      </a>
                                 </span><br>
                                 <img id="holder" class="img-responsive" style="max-width: 200px" src="{{ old('image') }}" alt="">

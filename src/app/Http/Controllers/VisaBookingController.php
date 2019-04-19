@@ -179,29 +179,36 @@ class VisaBookingController extends Controller
             $booking->special_request = $request->input('special_request');
             $booking->transport_id = $port['id'];
             $booking->user_id = auth()->id();
+            $booking->payment_status = 'unpaid';
 
             $booking->save();
 
+            $total = 0;
             $arrItems = array(
                 array(
                     'booking_id' => $booking->id,
                     'service_id' => $service_fee['id'],
                     'service_name' => $service_fee['name'],
+                    'service_type' => 'Visa service fee',
                     'quantity' => $quantity,
                     'price' => $service_fee['price'],
                     'total' => $service_fee['price']*$quantity,
                 )
             );
 
+            $total += $service_fee['price']*$quantity;
+
             if( $processing_fee['price'] != 0 ){
                 array_push( $arrItems, array(
                     'booking_id' => $booking->id,
                     'service_id' => $processing_fee['id'],
                     'service_name' => $processing_fee['name'],
+                    'service_type' => 'Visa processing fee',
                     'quantity' => $quantity,
-                    'price' => $service_fee['price'],
-                    'total' => $service_fee['price']*$quantity,
+                    'price' => $processing_fee['price'],
+                    'total' => $processing_fee['price']*$quantity,
                 ));
+                $total += $processing_fee['price']*$quantity;
             }
 
             $arrPesons = [];
@@ -223,16 +230,21 @@ class VisaBookingController extends Controller
                         'booking_id' => $booking->id,
                         'service_id' => $government->id,
                         'service_name' => $government->country->value,
+                        'service_type' => 'Government fee',
                         'quantity' => $quantity,
                         'price' => $government->visa_fee,
                         'total' => $government->visa_fee * $quantity,
                     ));
+                    $total += $government->visa_fee * $quantity;
                 }
 
 
             }
             BookingPerson::insert( $arrPesons );
             BookingItems::insert( $arrItems );
+
+            $booking->total = $total;
+            $booking->save();
 
             DB::commit();
 

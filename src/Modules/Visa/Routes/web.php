@@ -23,5 +23,9 @@ Route::group([
         'only' => ['index', 'edit','update']
     ]);
     Route::resource('visa-service','VisaServiceController');
+
+
+    Route::resource('order','Admin\OrderController');
+    Route::get('order/{id}/view-pdf','Admin\OrderController@viewPDF')->name('pdf.view');
 });
 

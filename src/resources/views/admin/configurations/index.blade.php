@@ -13,58 +13,60 @@
             <div class="box-header">
                 <a href="#" class="btn btn-danger btn-sm to-trash">
                     <i class="fa fa-trash-o"></i> @lang('app.delete')</a>
-                <a href="{{ route('page.create') }}" class="btn btn-success btn-sm">
+                <a href="{{ route('configuration.create') }}" class="btn btn-success btn-sm">
                     <i class="fa fa-plus"></i> @lang('app.create')</a>
             </div>
             <div class="box-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td><input type="checkbox" name="ids[]" class="i-checks check-all"></td>
-                        <td>@lang('configurations.label')</td>
-                        <td>@lang('configurations.name')</td>
-                        <td>@lang('configurations.value')</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach( $data as $item )
-                        <tr>
-                            <td><input type="checkbox" class="data-id i-checks" name="id[]" value="{{ $item->id }}"></td>
-                            <td>
-                                <a href="#">{{ $item->label }}</a><br/>
-                                <a href="{{ route('configuration.edit', $item->id ) }}" class="">
-                                    <i class="fa fa-edit"></i> {{ trans('app.edit') }}</a>
-                            </td>
-                            <td>
-                                {{ $item->name }}
-                            </td>
-                            <td>
-                                @if( $item->type == 'text' )
-                                {{ $item->value }}
-                                @endif
-                                @if( $item->type == 'image' )
-                                        <img src="{{ $item->value }}" width="100" alt="">
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
+                <!-- Custom Tabs -->
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        @foreach( config('configuration.section') as $key => $text )
+                            <li class="{{ $loop->index == 0 ? 'active' : '' }}"><a href="#tab_{{$key}}" data-toggle="tab">{{ $text }}</a></li>
+                        @endforeach
 
-                </table>
-            </div>
-            <div class="box-footer text-center">
-                <div class="clearfix">
-                    @if( $data && count($data))
-                        <p class="text-right">@lang('app.showing') {{$data->firstItem()}}-{{$data->lastItem()}} @lang('app.of') {{$data->total()}}
-                            @lang('app.results')</p>
-                    @endif
+                    </ul>
+                    <div class="tab-content">
+                        @foreach( config('configuration.section') as $key => $text )
+                            <div class="tab-pane {{ $loop->index == 0 ? 'active' : '' }}" id="tab_{{$key}}">
+                                @php
+                                    $data =  \App\Models\Configuration::where('section', $key )->get();
+                                @endphp
+
+                                @if( count($data) )
+
+                                    <ul class="list-group">
+                                    @foreach( $data as $item )
+                                    <li class="list-group-item">
+                                        <label> {{ $item->label }}
+                                            <a href="{{ route('configuration.edit', $item->id ) }}" class="">
+                                                <i class="fa fa-edit"></i> {{ trans('app.edit') }}</a>
+                                        </label>
+                                        <p>
+                                            @if( $item->type == 'text' )
+                                                <input type="text" readonly class="form-control" value="{{ $item->value }}">
+
+                                            @endif
+
+                                            @if( $item->type == 'image' )
+                                                <img src="{{ $item->value }}" width="100" alt="">
+                                            @endif
+                                        </p>
+
+                                    </li>
+                                    @endforeach
+                                    </ul>
+                                    @endif
+                            </div>
+                        @endforeach
+
+                    </div>
+                    <!-- /.tab-content -->
                 </div>
+                <!-- nav-tabs-custom -->
             </div>
+
         </div>
-        <!-- /.box -->
-        <div class="text-center">
-            {!! $data->appends(request()->input())->links() !!}
-        </div>
+
     </section>
     <!-- /.content -->
 

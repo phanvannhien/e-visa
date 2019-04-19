@@ -138,25 +138,26 @@ Route::group([
         Route::get('/', 'Admin\AdminController@index')->name('admin.dashboard');
         Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
 
-        Route::resource('continent','ContinentController');
-        Route::resource('country','CountryController');
-        Route::resource('city','CityController');
-        Route::resource('district','DistrictController');
-        Route::resource('ward','WardController');
-        Route::resource('page','PageController');
+        Route::resource('continent','Admin\ContinentController');
+        Route::resource('country','Admin\CountryController');
+        Route::resource('city','Admin\CityController');
+        Route::resource('district','Admin\DistrictController');
+        Route::resource('ward','Admin\WardController');
+
+        Route::resource('page','Admin\PageController');
+        Route::post('page/remove','Admin\PageController@remove')->name('page.remove');
 
         // Product
         Route::group([
             'prefix' => 'product',
         ], function(){
-            Route::resource('categories','CategoryController');
-            Route::resource('product','ProductController');
-            Route::post('product/remove','ProductController@remove')->name('product.remove');
+            Route::resource('categories','Admin\CategoryController');
+            Route::resource('product','Admin\ProductController');
+            Route::post('product/remove','Admin\ProductController@remove')->name('product.remove');
 
             Route::resource('brand','Admin\BrandController');
             Route::resource('attribute','Admin\AttributeController');
             Route::resource('type','Admin\ProductTypeController');
-
         });
 
         // User
@@ -168,13 +169,14 @@ Route::group([
 
         });
 
-        //Route::resource('contact','Admin\ContactController');
+        Route::resource('contact','Admin\ContactController');
 
         // Blog
         Route::group([
             'prefix' => 'blog',
         ], function(){
             Route::resource('blog','Admin\BlogController');
+            Route::post('blog/remove','Admin\BlogController@remove')->name('blog.remove');
             Route::resource('blog-category','Admin\BlogCategoryController');
         });
 
@@ -201,7 +203,7 @@ Route::group([
             Route::post('/sys_user/change-password',array('as'=>'admin_user.change_password.save',
                 'uses' => 'Admin\SysUserController@save_change_password'));
             // Configuration
-            Route::resource('configuration','ConfigurationController');
+            Route::resource('configuration','Admin\ConfigurationController');
             Route::resource('sys_user','Admin\SysUserController');
         });
 

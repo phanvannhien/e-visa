@@ -9,17 +9,11 @@
 
     <!-- Main content -->
     <section class="content">
-
+        <p>
+            <a href="{{ route('blog.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> @lang('app.create')</a>
+            <a href="{{ route('blog.index') }}" class="btn btn-info btn-sm"> <i class="fa fa-angle-left"></i> @lang('app.back')</a>
+        </p>
         <form action="{{ route('blog.update', $post->id) }}" method="POST">
-            <p>
-                <button type="submit" class="btn btn-success" name="submit">
-                    <i class="fa fa-save"></i> {{ trans('app.save') }}</button>
-
-                <a href="{{ route('blog.create') }}" class="btn btn-info">@lang('app.create')</a>
-                <a href="{{ route('blog.index') }}" class="btn btn-info">@lang('app.back')</a>
-            </p>
-
-
             <input type="hidden" name="_method" value="PUT">
             {{ csrf_field() }}
             <div class="row">
@@ -57,6 +51,8 @@
                                 <label for="">{{ trans('app.meta_description') }}</label>
                                 <textarea name="meta_description"  class="form-control">{{  old('blog_excerpt',$post->meta_description) }}</textarea>
                             </div>
+                            <button type="submit" class="btn btn-success" name="submit">
+                                <i class="fa fa-save"></i> {{ trans('app.save') }}</button>
                         </div>
                     </div>
                 </div>

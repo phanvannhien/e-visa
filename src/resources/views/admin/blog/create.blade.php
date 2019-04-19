@@ -9,53 +9,56 @@
 
     <!-- Main content -->
     <section class="content">
-        <form action="{{ route('blog.store') }}" method="post">
-            <p>
-                <button type="submit" class="btn btn-primary" name="submit">
-                    <i class="fa fa-save"></i> {{ trans('app.save') }}</button>
+        <p>
+            <a href="{{ route('blog.index') }}" class="btn btn-info btn-sm"><i class="fa fa-angle-left"></i> @lang('app.back')</a>
+        </p>
 
-                <a href="{{ route('blog.index') }}" class="btn btn-info">@lang('app.back')</a>
-            </p>
+        <form action="{{ route('blog.store') }}" method="post">
+
             {{ csrf_field() }}
             <div class="row">
                 <div class="col-sm-9">
+                    <div class="box">
+                        <div class="box-body">
 
-                    <div class="form-group">
-                        <label for="">{{ trans('blog.blog_title') }}</label>
-                        <input type="text" name="blog_title" required class="form-control" value="{{ old('blog_title' ) }}">
+                            <div class="form-group">
+                                <label for="">{{ trans('blog.blog_title') }}</label>
+                                <input type="text" name="blog_title" required class="form-control" value="{{ old('blog_title' ) }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">{{ trans('blog.blog_slug') }}</label>
+                                <input type="text" name="blog_slug"  class="form-control" value="{{ old('blog_slug' ) }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">{{ trans('blog.blog_excerpt') }}</label>
+                                <textarea id="" name="blog_excerpt" id="" class="form-control" cols="30" rows="10">{{ old('blog_excerpt' ) }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="">{{ trans('blog.blog_content') }}</label>
+                                <textarea id="" name="blog_content" id="" class="form-control editor" cols="30" rows="10">{{ old('blog_content' ) }}</textarea>
+                            </div>
+
+                            <hr>
+                            <div class="form-group">
+                                <label for="">{{ trans('app.meta_title') }}</label>
+                                <input type="text" name="meta_title"  class="form-control" value="{{ old('meta_title' ) }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">{{ trans('app.meta_keyword') }}</label>
+                                <input type="text" name="meta_keyword"  class="form-control" value="{{  old('meta_keyword') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">{{ trans('app.meta_description') }}</label>
+                                <textarea name="meta_description"  class="form-control">{{ old('meta_description' ) }}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success" name="submit">
+                                <i class="fa fa-save"></i> {{ trans('app.save') }}</button>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="">{{ trans('blog.blog_slug') }}</label>
-                        <input type="text" name="blog_slug"  class="form-control" value="{{ old('blog_slug' ) }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">{{ trans('blog.blog_excerpt') }}</label>
-                        <textarea id="" name="blog_excerpt" id="" class="form-control" cols="30" rows="10">{{ old('blog_excerpt' ) }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="">{{ trans('blog.blog_content') }}</label>
-                        <textarea id="" name="blog_content" id="" class="form-control editor" cols="30" rows="10">{{ old('blog_content' ) }}</textarea>
-                    </div>
-
-                    <hr>
-                    <div class="form-group">
-                        <label for="">{{ trans('app.meta_title') }}</label>
-                        <input type="text" name="meta_title"  class="form-control" value="{{ old('meta_title' ) }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">{{ trans('app.meta_keyword') }}</label>
-                        <input type="text" name="meta_keyword"  class="form-control" value="{{  old('meta_keyword') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">{{ trans('app.meta_description') }}</label>
-                        <textarea name="meta_description"  class="form-control">{{ old('meta_description' ) }}</textarea>
-                    </div>
-
-
                 </div>
                 <div class="col-sm-3">
                     <div class="box">

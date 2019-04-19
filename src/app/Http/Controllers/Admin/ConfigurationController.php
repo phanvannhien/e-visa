@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use DB;
@@ -12,11 +13,40 @@ class ConfigurationController extends Controller
 {
 
     public function index(){
-        return view('admin.configurations.index', array('data' => Configuration::paginate()));
+        return view('admin.configurations.index');
     }
 
-    public function configuration(){
-        return view('admin.configuration',array('configuration' => Configuration::all()) );
+    public function create(){
+        return view('admin.configurations.create' );
+    }
+
+
+    public function store(Request $request){
+        $rules = [
+            'label' => 'required|string',
+            'value' => 'required|string',
+            'type' => 'required|string',
+            'section' => 'required|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules );
+        if ($validator->fails()) {
+            return back()->withErrors ( $validator )->withInput();
+        }
+
+        $page = new Configuration();
+        $page->name = $request->input('name');
+        $page->label = $request->input('label');
+        $page->value = $request->input('value');
+        $page->type = $request->input('type');
+        $page->section = $request->input('section');
+
+        if( $page->save() ){
+            return redirect()
+                ->route( 'configuration.edit', $page->id )
+                ->with('status',  trans('app.success') );
+        }
+        return back()->with('status',  trans('app.fail') );
     }
 
     public function configurationSave(Request $request){
@@ -44,6 +74,7 @@ class ConfigurationController extends Controller
         $rules = [
             'label' => 'required|string',
             'value' => 'required|string',
+            'section' => 'required|string',
         ];
 
         $validator = Validator::make($request->all(), $rules );
@@ -54,6 +85,7 @@ class ConfigurationController extends Controller
         $page = Configuration::findOrFail($id);
         $page->label = $request->input('label');
         $page->value = $request->input('value');
+        $page->section = $request->input('section');
 
         if( $page->save() ){
             return redirect()

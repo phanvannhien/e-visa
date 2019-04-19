@@ -175,6 +175,8 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
 
+        Barryvdh\DomPDF\ServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -243,7 +245,7 @@ return [
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
         'Arr' => Illuminate\Support\Arr::class,
-
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
 
     ],

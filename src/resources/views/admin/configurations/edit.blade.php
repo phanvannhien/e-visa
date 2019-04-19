@@ -29,6 +29,17 @@
                 <div class="col-sm-9">
                     <div class="box">
                         <div class="box-body">
+
+                            <div class="form-group">
+                                <label for="section">@lang('configurations.section') <span class="text-red">*</span></label>
+                                <select name="section"  class="form-control" id="section">
+                                    @foreach( config('configuration.section') as $key => $text )
+                                        <option {{ $key == $data->section ? 'selected' : '' }} value="{{ $key }}">{{ $text }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+
                             <div class="form-group">
                                 <label for="name">@lang('configurations.name') <span class="text-red">*</span></label>
                                 <input readonly type="text" class="form-control" name="name" id="name" value="{{ old('name', $data->name ) }}" required/>
@@ -42,6 +53,13 @@
                                 <label for="value">@lang('configurations.value') <span class="text-red">*</span></label>
                                 <input type="text" class="form-control" name="value" id="value" value="{{ old('value', $data->value ) }}" required/>
                             </div>
+                            @endif
+
+                            @if( $data->type == 'textarea' )
+                                <div class="form-group">
+                                    <label for="value">@lang('configurations.value') <span class="text-red">*</span></label>
+                                    <textarea class="form-control" name="value" id="value" cols="30" rows="10">{{ old('value', $data->value ) }}</textarea>
+                                </div>
                             @endif
 
                             @if( $data->type == 'image' )
@@ -60,6 +78,8 @@
                                 </div>
 
                             @endif
+
+
 
                         </div>
                     </div>
