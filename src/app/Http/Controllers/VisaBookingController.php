@@ -130,6 +130,7 @@ class VisaBookingController extends Controller
         ];
 
         foreach( $request->get('person') as $key => $val){
+            $key = $key - 1;
             $rules = [
                 'person.'.$key.'.sure_name' => 'required|string:max:254',
                 'person.'.$key.'.given_name' => 'required|string:max:254',
@@ -173,7 +174,9 @@ class VisaBookingController extends Controller
             $booking->user_id = auth()->id();
             $booking->payment_status = 'unpaid';
             $booking->service_id = $service_fee['id'];
+
             $booking->save();
+
             $total = 0;
             $arrItems = array(
                 array(
@@ -231,7 +234,9 @@ class VisaBookingController extends Controller
             }
             BookingPerson::insert( $arrPesons );
             BookingItems::insert( $arrItems );
-            $booking->total = $total;
+            $booking->subtotal =  $total;
+            $booking->discount = Session::has('cart.discount') ?  Session::get('cart.discount') : 0;
+            $booking->total = ( $booking->discount > 0 ) ? $total - $booking->discount : $total;
             $booking->save();
             DB::commit();
 
@@ -239,7 +244,7 @@ class VisaBookingController extends Controller
             Mail::to( auth()->user()->email )->queue(new OrderEmail($booking));
 
             // redirect to payment
-            return redirect()->route('apply.visa.step3', ['order_id', $booking->id]);
+            return redirect()->route('apply.visa.step3', ['order_id' => $booking->id ]);
 
         }catch (Exception $e){
             DB::rollback();
@@ -363,48 +368,81 @@ class VisaBookingController extends Controller
     // ajax
     public function applyVisaPost(Request $request){
 
-        $quantity = $request->input('quantity') ;
-        $visa_type = VisaService::findOrFail( $request->input('visa_type') );
-        $transportation = Transportation::findOrFail( $request->input('transport') );
-        $processing = VisaService::findOrFail( $request->input('processing') );
-        $transport_type =  $request->input('transport_type');
+        if( $request->ajax() && $request->has('action') && $request->input('action') == 'update_qty' )
+        {
+            $quantity = $request->input('quantity') ;
+            $visa_type = VisaService::findOrFail( $request->input('visa_type') );
+            $transportation = Transportation::findOrFail( $request->input('transport') );
+            $processing = VisaService::findOrFail( $request->input('processing') );
+            $transport_type =  $request->input('transport_type');
 
-        $visaDiscount = VisaDiscount::all();
-        $discount = 0;
-        foreach( $visaDiscount as $range ){
-            if( $quantity >= $range->quantity_min && $quantity < $range->quantity_max ){
-                $discount =  $quantity*$range->discount;
-                Session::put('cart.discount', $discount);
-                break;
+            $visaDiscount = VisaDiscount::all();
+            $discount = 0;
+            foreach( $visaDiscount as $range ){
+                if( $quantity >= $range->quantity_min && $quantity <= $range->quantity_max ){
+                    $discount =  $quantity*$range->discount;
+                    Session::put('cart.discount', $discount);
+                    break;
+                }
             }
+
+
+            Session::put('cart.service_fee', array(
+                'id' => $visa_type->id,
+                'name' => $visa_type->service_name ,
+                'price' =>  $visa_type->service_price ,
+                'quantity' => (int)$quantity,
+            ));
+
+            Session::put('cart.processing_fee', array(
+                'id' => $processing->id,
+                'name' => $processing->service_name ,
+                'price' =>  $processing->service_price*$quantity ,
+                'quantity' => (int)$quantity,
+            ));
+
+            Session::put('cart.port', array(
+                'id' => $transportation->id,
+                'method' => $transportation->transport_type,
+                'transport_name' => $transportation->transport_name
+            ));
+
+            Session::put('cart.quantity', $quantity);
+        }
+        if( $request->ajax() && $request->has('action') && $request->input('action') == 'update_government' ){
+            $government = Government::where('code', $request->input('value') )->first();
+
+
+            if( $government ){
+
+                $index = (int)$request->input('index');
+                $item = [
+                    'fee' => $government->visa_fee,
+                    'country' => $government->country->value,
+                    'code' => $government->code
+                ];
+//                $arr = [];
+//                if( Session::has('cart.government') ){
+//                    $arr = Session::get('cart.government');
+//
+//                }
+//
+//                $arr[$index] = $item;
+
+                Session::put('cart.government.'.$index,  $item);
+
+            }
+
+
+
         }
 
-
-        Session::put('cart.service_fee', array(
-            'id' => $visa_type->id,
-            'name' => $visa_type->service_name ,
-            'price' =>  $visa_type->service_price ,
-            'quantity' => (int)$quantity,
-        ));
-
-        Session::put('cart.processing_fee', array(
-            'id' => $processing->id,
-            'name' => $processing->service_name ,
-            'price' =>  $processing->service_price ,
-            'quantity' => (int)$quantity,
-        ));
-
-        Session::put('cart.port', array(
-            'id' => $transportation->id,
-            'method' => $transportation->transport_type,
-            'transport_name' => $transportation->transport_name
-        ));
-
-        Session::put('cart.quantity', $quantity);
+       // dd( Session::get('cart'));
 
         return view('theme.ajaxs.cart')->render();
 
     }
+
 
     public function getCart()
     {

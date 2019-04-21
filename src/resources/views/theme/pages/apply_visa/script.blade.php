@@ -19,6 +19,8 @@
     function updateCart( element, action ) {
         var data = $('#frm-visa').serializeArray();
         data.push({name: 'action', value: action });
+        data.push({name: 'value', value: $(element).val() });
+        data.push({name: 'index', value: $(element).attr('data-index') });
         $.ajax({
             url: '{{ route('apply.visa.post') }}',
             method: 'POST',

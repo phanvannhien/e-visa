@@ -20,6 +20,7 @@ if( session()->has('cart.port') ){
 }
 
 
+
 ?>
 
 <div class="cart-item">
@@ -37,52 +38,65 @@ if( session()->has('cart.port') ){
     <p><strong>Visa Service Fees</strong></p>
     <p class="clearfix">
         <span class="float-left">Normal fee ( ${{ $service_fee['price'] }}x{{ $quantity }} )</span>
-        <span class="float-right">${{ $service_fee['price'] * $quantity }}</span>
+        <span class="float-right text-danger">${{ $service_fee['price'] * $quantity }}</span>
     </p>
+
 </div>
 <div class="cart-item">
     <p class="clearfix">
         <span class="float-left"><strong>Total Visa Service Fees</strong></span>
-        <span class="float-right">${{ $service_fee['price'] * $quantity }}</span>
+        <span class="float-right text-danger">${{ $service_fee['price'] * $quantity }}</span>
     </p>
 </div>
 <div class="cart-item">
     <p class="clearfix">
         <strong>Processing Time</strong> <br>
         <span class="float-left">{{ $processing_fee['name'] }}</span>
-        <span class="float-right">${{ $processing_fee['price']  }}</span>
+        <span class="float-right text-danger">${{ $processing_fee['price']  }}</span>
     </p>
 </div>
 
+<?php
+$total = $processing_fee['price'] + ( $service_fee['price'] * $quantity );
+?>
+
 @if( session()->has('cart.government') )
     <?php $government = session()->get('cart.government'); ?>
-    <div class="cart-item">
-        @foreach( $government as $gov )
-        <p class="clearfix">
+    <div class="cart-item clearfix">
+
             <strong>India Government Fee (Required) </strong> <br>
-            <span class="float-left">{{ ($loop->index + 1 ) .'  '.$gov->country->value }}</span>
-            <span class="float-right">${{ $gov->visa_fee  }}</span>
-        </p>
+        @foreach( $government as $key => $item )
+
+            <p class="clearfix mb-0"><span class="float-left">{{ ($loop->index + 1 ) .'  '.$item['country'] }}</span>
+            <span class="float-right text-danger">${{ $item['fee'] }}</span> </p>
+        <?php $total += $item['fee'] ?>
         @endforeach
+
     </div>
 @endif
 
-@if( session()->has('cart.discount') )
-<p class="clearfix">
-        <strong>Discount</strong> <br>
-        <span class="float-right">${{ session()->get('cart.discount')  }}</span>
+
+<div class="cart-footer clearfix py-3">
+
+    <p class="clearfix mb-0">
+        <strong class="float-left">Sub total</strong>
+        <span class="float-right text-danger">${{ $total  }}</span>
     </p>
-
-@endif
-
-<div class="cart-footer clearfix">
-    <strong class="float-left">Total Fees</strong>
-    <span class="total float-right">{{ config('visa.price_prefix') }} 
-        <?php
-            $total = $processing_fee['price'] + ( $service_fee['price'] * $quantity );
-            if( session()->has('cart.discount') ){
-                $total = $total - session()->get('cart.discount');
-            }
-        ?>
+    @if( session()->has('cart.discount') )
+    <p class="clearfix mb-0">
+        <strong class="float-left">Discount</strong>
+        <span class="float-right text-danger">${{ session()->get('cart.discount')  }}</span>
+    </p>
+    @endif
+    <p class="mb-0 clearfix">
+        <strong class="float-left">Total Fees</strong>
+        <span class="total float-right text-danger">{{ config('visa.price_prefix') }} 
+            <?php
+                
+                if( session()->has('cart.discount') ){
+                    $total = $total - session()->get('cart.discount');
+                }
+            ?>
         {{ $total }}</span>
+    </p>
 </div>

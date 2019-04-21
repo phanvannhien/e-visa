@@ -44,7 +44,7 @@
                             <td>{{ $item->start }}</td>
                             <td>{{ $item->end }}</td>
                             <td><span class="label label-info">{{ $item->payment_status }}</span></td>
-                            <td>{{ number_format($item->total) }}</td>
+                            <td class="text-red">{{ config('visa.price_prefix').number_format($item->total) }}</td>
                             <td>
 
                                 <a target="_blank" href="{{ route('pdf.view', [

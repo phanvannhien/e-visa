@@ -68,7 +68,7 @@ class LoginController extends Controller
             return response()->json([
                 'auth' => auth()->check(),
                 'user' => $user,
-                'intended' => url('/') ,
+                'intended' => redirect()->intended()->getTargetUrl() ,
             ]);
 
         }

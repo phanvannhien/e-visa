@@ -7,7 +7,7 @@
 ?>
 
 @include('theme.pages.apply_visa.apply_header')
-<form action="{{ route('apply.visa.step2.save') }}" method="post">
+<form id="frm-visa" action="{{ route('apply.visa.step2.save') }}" method="post">
     @csrf
     <div id="step2" class="mb-4">
         <div class="container">
@@ -29,7 +29,7 @@
                         </thead>
                         <tbody>
                         <?php
-                            $person = old('person');
+                            $person = old('person') ;
 
                         ?>
 
@@ -53,10 +53,19 @@
                                     <input type="text" name="person[{{ $i }}][dob]" class="form-control datepicker" value="{{ $person ? $person[$i]['dob']:'' }}">
                                 </td>
                                 <td>
-                                    <select name="person[{{ $i }}][government]" class="form-control" id="">
+                                    <select data-index="{{ $i }}" onchange="return updateCart(this,'update_government')" name="person[{{ $i }}][government]" class="form-control" id="">
                                         <option value="">Select your government</option>
                                         @foreach( $government as $gov )
-                                            <option {{ $person && ($person[$i]['government'] == $gov->code ) ? 'selected' : '' }} value="{{ $gov->code }}">{{ $gov->country->value }}</option>
+                                            <?php
+                                                if( ($person && $person[$i]['government'] == $gov->code )
+                                                    || ( session()->has( 'cart.government.'.$i )
+                                                    &&  session()->get( 'cart.government.'.$i )['code'] == $gov->code) ){
+                                                    $selected = 'selected';
+                                                }else{
+                                                    $selected = '';
+                                                }
+                                            ?>
+                                            <option {{ $selected }} value="{{ $gov->code }}">{{ $gov->country->value }}</option>
                                         @endforeach
 
                                     </select>

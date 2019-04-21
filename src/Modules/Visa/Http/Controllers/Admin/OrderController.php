@@ -16,7 +16,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $data = Booking::paginate();
+        $data = Booking::orderBy('created_at','DESC')->paginate();
 
         return view('visa::orders.index', compact('data'));
     }

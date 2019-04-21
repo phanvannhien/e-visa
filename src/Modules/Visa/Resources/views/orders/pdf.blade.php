@@ -101,6 +101,25 @@
 
             <tr>
                 <td colspan="4" class="text-end">
+                    Sub Total (USD)
+                </td>
+                <td class="text-red text-end">
+                    {{ config('visa.price_prefix').number_format($order->subtotal) }}
+                </td>
+                <td class="text-red text-end">$0.00</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-end">
+                   Discount (USD)
+                </td>
+                <td class="text-red text-end">
+                    {{ config('visa.price_prefix').number_format($order->discount) }}
+                </td>
+                <td class="text-red text-end"></td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="text-end">
                     Total (USD)
                 </td>
                 <td class="text-red text-end">
