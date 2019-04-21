@@ -26,6 +26,7 @@
                         <th>@lang('visa::order.user')</th>
                         <th>@lang('visa::order.date_start')</th>
                         <th>@lang('visa::order.date_end')</th>
+                        <td>Payment Status</td>
                         <th>@lang('visa::order.total')</th>
                         <th></th>
                     </tr>
@@ -35,20 +36,25 @@
                         <tr id="row-{{ $item->id }}">
                             <td>
                                 {{ $item->id }}
-                                <a href="{{ route('order.show', $item->id ) }}" class="">
-                                    <i class="fa fa-eye"></i> {{ trans('app.view') }}
-                                </a>
+                                
                             </td>
                             <td>
                                 <a href="{{ route('user.show',$item->user_id ) }}">{{ $item->user->full_name }}</a> <br/>
                             </td>
                             <td>{{ $item->start }}</td>
                             <td>{{ $item->end }}</td>
+                            <td><span class="label label-info">{{ $item->payment_status }}</span></td>
                             <td>{{ number_format($item->total) }}</td>
                             <td>
 
-                                <a target="_blank" href="{{ route('pdf.view', $item->id ) }}" class="btn btn-success btn-sm">
-                                    PDF {{ $item->payment_status }}</a>
+                                <a target="_blank" href="{{ route('pdf.view', [
+                                    'id' => $item->id,
+                                    'type' => $item->payment_status
+                                ]) }}" class="btn btn-success btn-sm">
+                                    View invoice {{ $item->payment_status }}</a>
+                                <a href="{{ route('order.show', $item->id ) }}" class="btn btn-sm btn-info">
+                                        <i class="fa fa-eye"></i> {{ trans('app.view') }}
+                                    </a>
 
                             </td>
                         </tr>

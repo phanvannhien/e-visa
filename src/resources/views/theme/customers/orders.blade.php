@@ -16,8 +16,9 @@
                 <div id="primary-inner" class="p-4 bg-white">
                     @include('theme.partials.messages')
                     <div class="">
+                        <h3 class="border-bottom pb-3">My Orders</h3>
                         @if( $orders->count() )
-                            @foreach( $user->orders as $order )
+                            @foreach( $orders as $order )
                             @include('theme.customers.order.item')
                             @endforeach
                             <p class="text-right">
@@ -25,7 +26,6 @@
                                 @lang('app.results')</p>
 
                             {!! $orders->appends(request()->input())->links() !!}
-
                         @else
                             <p class="mb-0">@lang('customer.no_order')</p>
                         @endif

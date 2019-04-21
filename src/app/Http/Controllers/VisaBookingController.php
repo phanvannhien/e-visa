@@ -1,11 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use App\User;
-
-
 
 use Mockery\Exception;
 use Modules\Visa\Entities\Booking;
@@ -15,16 +11,10 @@ use Modules\Visa\Entities\Government;
 use Modules\Visa\Entities\Transportation;
 use Modules\Visa\Entities\VisaService;
 
-use Validator;
-use Session;
-use Auth;
-use DB;
-
+/** All Paypal Details class **/
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
-
-/** All Paypal Details class **/
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
@@ -33,11 +23,23 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
+
+// Facade
+use Validator;
+use Session;
+use Auth;
+use DB;
+use Mail;
 use Redirect;
 use URL;
+use App\User;
 
-
-
+use Modules\Visa\Entities\Transaction as VisaTransaction;
+use Modules\Visa\Entities\VisaDiscount;
+// Mail
+use App\Mail\BookingEmail;
+use App\Mail\OrderEmail;
+use App\Mail\PaymentSuccessEmail;
 
 class VisaBookingController extends Controller
 {
@@ -54,12 +56,10 @@ class VisaBookingController extends Controller
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
 
+
     public function applyVisaStep1(Request $request){
-
         $quantity = 1;
-
         Session::put( 'cart.step', 1 );
-
         if( !session()->has( 'cart.service_fee' ) ){
             $visa_type = VisaService::where('service_type','visa_fee')->firstOrFail();
             Session::put('cart.service_fee', array(
@@ -70,6 +70,7 @@ class VisaBookingController extends Controller
             ));
         }
 
+        // apply rush visa
         if( $request->has('rush') &&  $request->input('rush') == 1 ){
             if( !session()->has( 'cart.processing_fee' ) ){
                 $processing = VisaService::where('service_type','visa_processing')
@@ -95,8 +96,6 @@ class VisaBookingController extends Controller
         }
 
 
-
-
         if( !session()->has( 'cart.port' ) ){
             $transportation = Transportation::where('transport_type','airport')->firstOrFail();
             Session::put('cart.port', array(
@@ -109,24 +108,20 @@ class VisaBookingController extends Controller
 
             Session::put('cart.quantity', $quantity);
         }
-
-
         return view('theme.pages.apply_visa.apply_visa');
     }
 
+    
     public function applyVisaStep1Save(Request $request){
         return redirect()->route('apply.visa.step2');
     }
 
     public function applyVisaStep2(Request $request){
-
         Session::put('cart.step', 2);
         return view('theme.pages.apply_visa.apply_visa_step2');
     }
 
     public function applyVisaStep2Save(Request $request){
-
-
         $rules = [
             'start' => 'required|date|after:today',
             'end' => 'required|date|after:start',
@@ -135,7 +130,6 @@ class VisaBookingController extends Controller
         ];
 
         foreach( $request->get('person') as $key => $val){
-
             $rules = [
                 'person.'.$key.'.sure_name' => 'required|string:max:254',
                 'person.'.$key.'.given_name' => 'required|string:max:254',
@@ -156,7 +150,6 @@ class VisaBookingController extends Controller
         }
 
         // Save Order
-
         if( !session()->has('cart.quantity')
             || !session()->has('cart.service_fee')
             || !session()->has('cart.processing_fee')
@@ -170,7 +163,6 @@ class VisaBookingController extends Controller
         $processing_fee = session()->get('cart.processing_fee');
         $port = session()->get('cart.port');
 
-
         try{
             DB::beginTransaction();
             $booking = new Booking();
@@ -180,9 +172,8 @@ class VisaBookingController extends Controller
             $booking->transport_id = $port['id'];
             $booking->user_id = auth()->id();
             $booking->payment_status = 'unpaid';
-
+            $booking->service_id = $service_fee['id'];
             $booking->save();
-
             $total = 0;
             $arrItems = array(
                 array(
@@ -224,58 +215,73 @@ class VisaBookingController extends Controller
                     'passport_number' => $person['passport_number'],
                 ];
 
-
                 if($government){
                     array_push( $arrItems,array(
                         'booking_id' => $booking->id,
                         'service_id' => $government->id,
                         'service_name' => $government->country->value,
                         'service_type' => 'Government fee',
-                        'quantity' => $quantity,
+                        'quantity' => 1,
                         'price' => $government->visa_fee,
-                        'total' => $government->visa_fee * $quantity,
+                        'total' => $government->visa_fee,
                     ));
-                    $total += $government->visa_fee * $quantity;
+                    $total += $government->visa_fee;
                 }
-
 
             }
             BookingPerson::insert( $arrPesons );
             BookingItems::insert( $arrItems );
-
             $booking->total = $total;
             $booking->save();
-
             DB::commit();
 
-            return redirect()->route('apply.visa.step3');
+            // Send email invoice
+            Mail::to( auth()->user()->email )->queue(new OrderEmail($booking));
+
+            // redirect to payment
+            return redirect()->route('apply.visa.step3', ['order_id', $booking->id]);
 
         }catch (Exception $e){
             DB::rollback();
         }
 
-
     }
 
-    public function applyVisaStep3(Request $request){
+    public function applyVisaStep3(Request $request, $order_id ){
+
+        $order = Booking::findOrFail( $order_id );
+        // Create session order
+        Session::put('order', $order->id );
         Session::put('cart.step', 3);
         return view('theme.pages.apply_visa.apply_visa_step3');
     }
 
     public function applyVisaStep3Save(Request $request){
+        if( !session()->has('order') ){
+            return redirect()->route('apply.visa.step1');
+        }
+        return $this->payment( );
+    }
+
+    public function payment( ){
+        if( !session()->has('order') ){
+            return redirect()->route('apply.visa.step1');
+        }
+        $order = Booking::findOrFail( session()->get('order') );
+
         $payer = new \PayPal\Api\Payer();
         $payer->setPaymentMethod('paypal');
 
         $amount = new \PayPal\Api\Amount();
-        $amount->setTotal('1.00');
+        $amount->setTotal( $order->total );
         $amount->setCurrency('USD');
 
         $transaction = new \PayPal\Api\Transaction();
         $transaction->setAmount($amount);
 
         $redirectUrls = new \PayPal\Api\RedirectUrls();
-        $redirectUrls->setReturnUrl( route('apply.visa.step4') )
-            ->setCancelUrl( route('apply.visa.step3') );
+        $redirectUrls->setReturnUrl( route('apply.visa.step3.success') )
+            ->setCancelUrl( route('home') );
 
         $payment = new \PayPal\Api\Payment();
         $payment->setIntent('sale')
@@ -289,7 +295,6 @@ class VisaBookingController extends Controller
             echo $payment;
             echo "\n\nRedirect user to approval_url: " . $payment->getApprovalLink() . "\n";
 
-
             return redirect()->away( $payment->getApprovalLink() );
 
         }
@@ -301,23 +306,79 @@ class VisaBookingController extends Controller
 
     }
 
-    public function applyVisaStep4(Request $request){
+    public function paymentPaypalCallback(Request $request){
         Session::put('cart.step', 4);
-        dd($request->all());
+        // Save transaction
+       
+        if( !session()->has('order') ){
+            return redirect()->route('apply.visa.step1');
+        }
+        $order = Booking::findOrFail( session()->get('order') );
+
+        if( ! $order ){
+            return redirect()->route('home')->with('status','Payment for Order not found');;
+        }
+
+        if( !$request->has('paymentId') && !$request->has('token') && $request->has('PayerID')){
+            return redirect()->route('home')->with('status','Payment fail');
+        }
+
+        $transaction = new VisaTransaction();
+        $transaction->user_id = auth()->id();
+        $transaction->order_id = $order->id ;
+        $transaction->payment_title = 'Paypal';
+        $transaction->paymentId = $request->input('paymentId') ;
+        $transaction->token = $request->input('token') ;
+        $transaction->PayerID = $request->input('PayerID') ;
+
+        try{
+            DB::beginTransaction();
+            $transaction->save();
+
+            $order->payment_status = 'paid';
+            $order->save();
+
+            DB::commit();
+
+            Mail::to( auth()->user()->email )
+                ->queue(new PaymentSuccessEmail($order));
+
+        }catch (Exception $e){
+            DB::rollback();
+            return redirect()->route('apply.visa.step3', ['order_id', $order->id ] )->with('status','Payment fail!');
+        }
+
+        // send mail payment completed
+        return redirect()->route('apply.visa.step4');
+    }
+    
+
+    public function applyVisaStep4(){
+        if( ! session()->has('cart.step') )
+            return redirect('/');
+        return view('theme.pages.apply_visa.apply_visa_step4');
+
     }
 
-    public function applyVisaStep4Save(Request $request){
-        dd($request->all());
-    }
-
+    // ajax
     public function applyVisaPost(Request $request){
-
 
         $quantity = $request->input('quantity') ;
         $visa_type = VisaService::findOrFail( $request->input('visa_type') );
         $transportation = Transportation::findOrFail( $request->input('transport') );
         $processing = VisaService::findOrFail( $request->input('processing') );
         $transport_type =  $request->input('transport_type');
+
+        $visaDiscount = VisaDiscount::all();
+        $discount = 0;
+        foreach( $visaDiscount as $range ){
+            if( $quantity >= $range->quantity_min && $quantity < $range->quantity_max ){
+                $discount =  $quantity*$range->discount;
+                Session::put('cart.discount', $discount);
+                break;
+            }
+        }
+
 
         Session::put('cart.service_fee', array(
             'id' => $visa_type->id,

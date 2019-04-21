@@ -54,7 +54,7 @@
                 <div id="user-nav">
                     @if( Auth::check() )
                         <a href="{{ route('customer.dashboard') }}">
-                            <span class="menu-icon"><i class="fa fa-clock-o"></i></span>
+                            <span class="menu-icon d-block text-center"><i class="far fa-user"></i></span>
                             MY ACCOUNT</a>
                         @else
                         <a href="{{ route('login') }}"><span class="menu-icon d-block text-center">

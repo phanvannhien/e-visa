@@ -39,7 +39,6 @@
                                 </select>
 
                             </div>
-
                             <div class="form-group">
                                 <label for="name">@lang('configurations.name') <span class="text-red">*</span></label>
                                 <input readonly type="text" class="form-control" name="name" id="name" value="{{ old('name', $data->name ) }}" required/>

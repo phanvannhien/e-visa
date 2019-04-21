@@ -58,6 +58,14 @@
                                id="service_description">{{ old('service_description') }}</textarea>
                     </div>
 
+                    <div class="form-group">
+                        <label for="email_require_content">@lang('visa::service.email_require_content')</label>
+                        <textarea type="text" class="form-control editor"
+                                  name="email_require_content"
+                                  id="email_require_content">{{ old('email_require_content') }}</textarea>
+                    </div>
+
+
                     <button type="submit" name="submit" class="btn btn-success btn-sm">
                         <i class="fa fa-save"></i> @lang('app.save')
                     </button>

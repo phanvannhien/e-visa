@@ -12,25 +12,28 @@
 */
 
 Auth::routes();
-
 Route::get('/', 'HomeController@index')->name('home');
 
-
+// Select visa service
 Route::get('/apply-visa.html','VisaBookingController@applyVisaStep1')->name('apply.visa.step1');
+// Redirect to step 2
 Route::post('/apply-visa.html','VisaBookingController@applyVisaStep1Save')->name('apply.visa.step1.save');
-
+// Fill persion info
 Route::get('/apply-visa-step2.html','VisaBookingController@applyVisaStep2')->name('apply.visa.step2')->middleware('auth');
+// Save order and send mail invoice
 Route::post('/apply-visa-step2.html','VisaBookingController@applyVisaStep2Save')->name('apply.visa.step2.save')->middleware('auth');
-
-Route::get('/apply-visa-step3.html','VisaBookingController@applyVisaStep3')->name('apply.visa.step3')->middleware('auth');
-Route::post('/apply-visa-step3.html','VisaBookingController@applyVisaStep3Save')->name('apply.visa.step3.save')->middleware('auth');
-
+// List payment method
+Route::get('/apply-visa-step3/{order_id}/payment.html','VisaBookingController@applyVisaStep3')->name('apply.visa.step3')->middleware('auth');
+// Redirect to payment
+Route::post('/apply-visa-step3/make-payment.html','VisaBookingController@applyVisaStep3Save')->name('apply.visa.step3.save')->middleware('auth');
+// Payment paypal callback
+Route::get('/apply-visa-step3/completed.html','VisaBookingController@paymentPaypalCallback')->name('apply.visa.step3.success')->middleware('auth');
+// Show form success
 Route::get('/apply-visa-step4.html','VisaBookingController@applyVisaStep4')->name('apply.visa.step4')->middleware('auth');
-Route::post('/apply-visa-step4.html','VisaBookingController@applyVisaStep4Save')->name('apply.visa.step4.save')->middleware('auth');
+
 
 Route::get('/get-cart','VisaBookingController@getCart')->name('apply.visa.get');
 Route::post('/update-cart','VisaBookingController@applyVisaPost')->name('apply.visa.post');
-
 
 Route::get('/visa-fees.html','HomeController@visaFee')->name('fee.visa');
 Route::get('/processing.html','HomeController@processing')->name('processing.visa');
@@ -126,7 +129,8 @@ Route::group([
 // Admin routes
 Route::group([
     'prefix' => 'administration'
-], function(){
+], function()
+{
 
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login');
     Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.login.submit');
@@ -138,11 +142,19 @@ Route::group([
         Route::get('/', 'Admin\AdminController@index')->name('admin.dashboard');
         Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
 
-        Route::resource('continent','Admin\ContinentController');
-        Route::resource('country','Admin\CountryController');
-        Route::resource('city','Admin\CityController');
-        Route::resource('district','Admin\DistrictController');
-        Route::resource('ward','Admin\WardController');
+
+        Route::group([
+            'prefix' => 'systems',
+        ], function(){
+            Route::resource('continent','Admin\ContinentController');
+            Route::resource('country','Admin\CountryController');
+            Route::resource('city','Admin\CityController');
+            Route::resource('district','Admin\DistrictController');
+            Route::resource('ward','Admin\WardController');
+
+        });
+
+
 
         Route::resource('page','Admin\PageController');
         Route::post('page/remove','Admin\PageController@remove')->name('page.remove');
@@ -197,6 +209,9 @@ Route::group([
         Route::group([
             'prefix' => 'system',
         ], function(){
+
+            Route::resource('email-template','Admin\EmailTemplateController');
+
 
             Route::get('/sys_user/change-password',array('as'=>'admin_user.change_password',
                 'uses' => 'Admin\SysUserController@change_password'));

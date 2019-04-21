@@ -14,6 +14,7 @@ use App\Product;
 use App\User;
 
 use Auth;
+use Modules\Visa\Entities\Booking;
 use Validator;
 use DB;
 
@@ -22,6 +23,7 @@ class CustomerController extends Controller
 {
 
     public function dashboard(){
+        return redirect()->route('customer.order');
         $user = Auth::user();
         return view('theme.customers.dashboard', compact('user'));
     }
@@ -259,12 +261,12 @@ class CustomerController extends Controller
 
     public function orders(){
         $user = Auth::user();
-        $orders = Order::where('user_id', $user->id )->orderBy('created_at','DESC')->paginate();
+        $orders = Booking::where('user_id', $user->id )->orderBy('created_at','DESC')->paginate();
         return view('theme.customers.orders', compact('user', 'orders') );
     }
 
     public function orderDetail($id){
-        $order = Order::findOrFail($id);
+        $order = Booking::findOrFail($id);
         if( Auth::user()->id != $order->user_id ){
             return back();
         }

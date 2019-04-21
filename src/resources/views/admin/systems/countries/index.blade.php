@@ -30,7 +30,6 @@
                         <td>{{ trans('country.capital') }}</td>
                         <td>{{ trans('country.currency') }}</td>
                         <td>{{ trans('country.languages') }}</td>
-                        <td>{{ trans('country.visa_fee') }}</td>
                         <td></td>
                     </tr>
                     </thead>
@@ -61,12 +60,7 @@
                             <td>
                                 {{ $item->languages }}
                             </td>
-                            <td class="bg-primary text-center">
-                                {{ $item->visa_fee }}$
-                            </td>
-                            <td>
-                                <a class="btn btn-sm btn-success" href="{{ route('country.edit', $item->id) }}">@lang('app.edit')</a>
-                            </td>
+
 
                         </tr>
                     @endforeach

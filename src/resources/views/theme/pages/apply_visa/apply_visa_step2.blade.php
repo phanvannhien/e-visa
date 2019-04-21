@@ -99,7 +99,8 @@
                     </div>
 
                     <p class="text-center">
-                        <button type="submit" class="btn btn-warning" >Continue</button>
+                        <a href="{{ route('apply.visa.step1') }}" class="btn btn-info" ><i class="fa fa-angle-left"></i> Back Step 1</a>
+                        <button type="submit" class="btn btn-warning" >Continue <i class="fa fa-angle-right"></i></button>
                     </p>
 
                 </div>

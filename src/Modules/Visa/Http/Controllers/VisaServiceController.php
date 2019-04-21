@@ -40,7 +40,8 @@ class VisaServiceController extends Controller
         $rules = [
             'service_type' => 'required|string',
             'service_name' => 'required|string',
-            'service_price' => 'required|integer'
+            'service_price' => 'required|integer',
+            'email_require_content' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules );
@@ -54,6 +55,7 @@ class VisaServiceController extends Controller
         $data->service_name = $request->input('service_name');
         $data->service_price = $request->input('service_price');
         $data->service_description = $request->input('service_description');
+        $data->email_require_content = $request->input('email_require_content');
 
         if( $data->save() ){
             return redirect()->route( 'visa-service.edit', $data->id )
@@ -94,7 +96,8 @@ class VisaServiceController extends Controller
         $rules = [
             'service_type' => 'required|string',
             'service_name' => 'required|string',
-            'service_price' => 'required|integer'
+            'service_price' => 'required|integer',
+            'email_require_content' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules );
@@ -108,6 +111,7 @@ class VisaServiceController extends Controller
         $data->service_name = $request->input('service_name');
         $data->service_price = $request->input('service_price');
         $data->service_description = $request->input('service_description');
+        $data->email_require_content = $request->input('email_require_content');
 
         if( $data->save() ){
             return redirect()->route( 'visa-service.edit', $data->id )

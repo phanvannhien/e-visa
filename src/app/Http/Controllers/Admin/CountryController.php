@@ -11,7 +11,7 @@ class CountryController extends Controller
 {
     public function index( Request $request, CountryFilter $filters ){
         $data = Countries::filter($filters)->orderBy('name')
-            ->select('id','code as country_code','value as name','native','phone','continent','capital','currency','languages','visa_fee')
+            ->select('id','code as country_code','value as name','native','phone','continent','capital','currency','languages')
             ->paginate(20);
         return view('admin.systems.countries.index', ['data' => $data ]);
     }

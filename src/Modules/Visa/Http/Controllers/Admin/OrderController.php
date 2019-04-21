@@ -82,18 +82,13 @@ class OrderController extends Controller
         //
     }
 
-    public function viewPDF($orderID){
-        $order = Booking::findOrFail( $orderID );
-        //$pdf = PDF::loadView('visa::orders.pdf', $order );
-
-        $fileName = 'invoice_'.$orderID.'.pdf';
-
-        return PDF::loadView( 'visa::orders.pdf', compact('order') )
-            ->save( public_path('media/pdfs/'. $fileName ) )
-            ->stream($fileName);
-
-//        return $pdf->stream();
-//        return $pdf->download('invoice_'.$orderID.'.pdf');
+    public function viewPDF($id, $type){
+        $order = Booking::findOrFail( $id );
+        if( $type == 'paid' )
+            return PDF::loadView( 'visa::orders.pdf_paid', compact('order') )->stream();
+        if( $type == 'unpaid' ){
+            return PDF::loadView( 'visa::orders.pdf', compact('order') )->stream();
+        }
     }
 
 }

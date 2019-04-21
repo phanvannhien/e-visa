@@ -86,7 +86,8 @@ jQuery(document).ready(function(){
             success: function ( response ) {
                 $('body').removeClass('loading');
                 if( response.auth ){
-                    window.location.reload();
+                    console.log( response );
+                    return window.location.href = response.intended;
                 }
             },
             error: function(  jqXHR,  textStatus,  errorThrown){

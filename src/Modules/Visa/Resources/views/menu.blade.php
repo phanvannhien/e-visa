@@ -28,6 +28,13 @@
             </a>
         </li>
 
+        <li class="{{ ($currentRouteName->getName() == 'visa_discount.index') ? 'active' : '' }}">
+                <a href="{{ route('visa_discount.index') }}">
+                    <i class="fa fa-archive"></i>
+                    Visa discount seeting
+                </a>
+            </li>
+
     </ul>
 
 </li>

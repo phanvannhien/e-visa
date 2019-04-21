@@ -13,58 +13,100 @@
                 </div>
                 <div id="primary" class="col-md-8">
                     <div id="primary-inner" class="p-4 bg-white">
-                        <div class="order-info mb-4">
-                            <a href="{{ route('customer.order') }}" class="float-right"><i class="la la-cubes"></i> @lang('customer.order')</a>
-                            <h3 class="text-uppercase border-bottom pb-2 mb-3">@lang('order.customer_shipping_information')</h3>
-                            <p class="badge badge-info text-white"> @lang('order.status') {{ $order->status }}</p>
-                            <p>
-                                <i class="la la-user"></i> {{ $order->shipping_full_name }} <br/>
-                                <i class="la la-envelope"></i> {{ $order->shipping_email }}<br/>
-                                <i class="la la-phone"></i> {{ $order->shipping_phone }}<br/>
-                                <i class="la la-map-marker"></i> {{ $order->shipping_address }}, {{ $order->district->name }}, {{ $order->city->name }}
+                        <h2 class="mb-4">Application information: ID ORDER: #{{ $order->id }}</h2>
+
+                        <div class="mb-3">
+                            <p><strong>Apply date:</strong> {{ $order->created_at }}</p>
+                            <p><strong>Payment title:</strong> {{ $order->payment_title }}</p>
+                            <p><strong>This order have Payment status:</strong><span class="badge badge-warning p-2 ml-3 text-uppercase">{{ $order->payment_status }}</span></p>
+
+                            @if( $order->payment_status == 'unpaid' )
+                            <p class="text-center">
+                                <a href="{{ route('apply.visa.step3', $order->id ) }}" class="btn btn-success text-uppercase">
+                                    <i class="fab fa-cc-paypal"></i>
+                                    Payment now</a>
                             </p>
+                            @endif
                         </div>
 
+                        <h3>Information for Order Detail</h3>
+                        <div class="mb-4">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>Order ID</td>
+                                    <td><span class="label label-info">{{ $order->id }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Start Date of Arrival</td>
+                                    <td>{{ $order->start }}</td>
+                                </tr>
+                                <tr>
+                                    <td>End Date of Arrival</td>
+                                    <td>{{ $order->end }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Special Request</td>
+                                    <td>{{ $order->special_request }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Transport</td>
+                                    <td>{{ $order->transport->transport_name }} - {{ $order->transport->transport_type }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Discount</td>
+                                    <td>{{ config('visa.price_prefix').$order->discount }}</td>
+                                </tr>
+                            </table>
+                        </div>
 
-                        <div class="order-method row mb-4">
-                            <div class="col-md-6">
-                                <h3 class="text-uppercase border-bottom pb-2 mb-3">@lang('order.shipping_method')</h3>
-                                <p>{{ $order->shipping_title }}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h3 class="text-uppercase border-bottom pb-2 mb-3">@lang('order.payment_method')</h3>
-                                <p>{{ $order->payment_title }}</p>
-                            </div>
+                        <div class="mb-4">
+                            <h3>Service Fee</h3>
+                            <table class="table-bordered table">
+                                <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Service type</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach( $order->items as $item )
+                                    <tr>
+                                        <td>{{ $item->service_name }}</td>
+                                        <td>{{ $item->service_type }}</td>
+                                        <td class="text-danger">
+                                            {{ config('visa.price_prefix').number_format($item->price) }}
+                                        </td>
+                                        <td class="text-danger"> {{ config('visa.price_prefix').number_format($item->total) }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                                <tfooter>
+                                    <tr>
+                                        <td colspan="5" class="text-right">
+                                            Total: <span class="text-danger">{{ config('visa.price_prefix').number_format($order->total) }}</span>
+                                        </td>
+                                    </tr>
+                                </tfooter>
+                            </table>
                         </div>
 
                         <div class="order-products">
-                            <h3 class="text-uppercase border-bottom pb-2 mb-3">@lang('order.products')</h3>
-                            <div class="cart-reviews">
-                                @foreach( $order->items as $product )
-                                    <?php $prod = $product->product ?>
-                                    <div class="cart-review-item py-2 clearfix">
-                                        <a class="" href="{{ route('product.detail', [ 'id' => $product->product_id , 'slug' => $prod->slug ]) }}">
-                                            <img src="{{ $prod->thumbnail }}" class="img-fluid float-md-left border" alt="{{ $product->product_title }}">
-                                        </a>
-                                        <div class="cart-reivew-data">
-                                            <p class="mb-0">
-                                                <a href="{{ route('product.detail', [ 'id' =>  $product->product_id, 'slug' => $prod->slug ]) }}">
-                                                    {{ Str::words( $product->product_title ,10) }}</a>
-                                            </p>
-                                            <p class="mb-0">
-                                                <small class="">
-                                                    <span class="price">{{ number_format( $product->price ).config('product.price_suffix') }}</span>x<span>{{  $product->qty_ordered }}</span>
-                                                    = <span class="price">{{ number_format( $product->total ).config('product.price_suffix') }}</span>
-                                                </small>
-                                            </p>
-
-                                        </div>
-                                    </div>
+                            <h3>Passport detail of Applications</h3>
+                            <ul class="list-group">
+                                @foreach( $order->persons as $item )
+                                <li class="list-group-item">
+                                    <strong>Sure name</strong>: {{ $item->sure_name }} <br>
+                                    <strong>Given name</strong>: {{ $item->given_name }} <br>
+                                    <strong>Gender</strong>: {{ $item->gender }}, <strong>Date of birth</strong>: {{ $item->dob }} <br>
+                                    <strong>Government</strong>: {{ $item->government->country->value }} <br>
+                                    <strong>Passport number</strong>: {{ $item->passport_number }}
+                                </li>
                                 @endforeach
-                                <p class="text-right mt-3">
-                                    @lang('order.total') <span class="price">{{ number_format($order->total).config('product.price_suffix') }}</span>
-                                </p>
-                            </div>
+                            </ul>
+
+
                         </div>
 
                     </div>

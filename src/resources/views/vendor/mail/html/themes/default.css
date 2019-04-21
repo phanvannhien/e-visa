@@ -6,8 +6,8 @@ body, body *:not(html):not(style):not(br):not(tr):not(code) {
 }
 
 body {
-    background-color: #f5f8fa;
-    color: #74787E;
+    background-color: #ffffc0;
+    color: #222;
     height: 100%;
     hyphens: auto;
     line-height: 1.4;
@@ -30,7 +30,7 @@ blockquote {
 }
 
 a {
-    color: #3869D4;
+    color: #F93;
 }
 
 a img {
@@ -40,7 +40,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #2F3133;
+    color: #333;
     font-size: 19px;
     font-weight: bold;
     margin-top: 0;
@@ -48,7 +48,7 @@ h1 {
 }
 
 h2 {
-    color: #2F3133;
+    color: #333;
     font-size: 16px;
     font-weight: bold;
     margin-top: 0;
@@ -56,7 +56,7 @@ h2 {
 }
 
 h3 {
-    color: #2F3133;
+    color: #333;
     font-size: 14px;
     font-weight: bold;
     margin-top: 0;
@@ -64,8 +64,8 @@ h3 {
 }
 
 p {
-    color: #74787E;
-    font-size: 16px;
+    color: #222;
+    font-size: 14px;
     line-height: 1.5em;
     margin-top: 0;
     text-align: left;
@@ -82,7 +82,7 @@ img {
 /* Layout */
 
 .wrapper {
-    background-color: #f5f8fa;
+    background-color: #fff;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -118,7 +118,7 @@ img {
 /* Body */
 
 .body {
-    background-color: #FFFFFF;
+    background-color: #fff;
     border-bottom: 1px solid #EDEFF2;
     border-top: 1px solid #EDEFF2;
     margin: 0;
@@ -129,8 +129,18 @@ img {
     -premailer-width: 100%;
 }
 
+.inner-body-header{
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 0;
+    width: 570px;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 570px;
+}
+
 .inner-body {
-    background-color: #FFFFFF;
+    background-color: #ffffc0;
     margin: 0 auto;
     padding: 0;
     width: 570px;
@@ -177,20 +187,21 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
+    border-collapse: collapse;
 }
 
 .table th {
-    border-bottom: 1px solid #EDEFF2;
+    border-bottom: 1px solid #333;
     padding-bottom: 8px;
     margin: 0;
 }
 
-.table td {
-    color: #74787E;
-    font-size: 15px;
+.table td, .table th {
+    font-size: 14px;
     line-height: 18px;
-    padding: 10px 0;
+    padding: 1rem;
     margin: 0;
+    border: 1px solid #333;
 }
 
 .content-cell {
@@ -287,4 +298,18 @@ img {
 .promotion p {
     font-size: 15px;
     text-align: center;
+}
+
+.list-group{
+    list-style: none;
+    border: 1px solid #333;
+    padding: 0;
+}
+
+.list-group-item{
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+}
+.list-group-item:last-child{
+    border-bottom: 0;
 }

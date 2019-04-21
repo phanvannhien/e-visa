@@ -68,21 +68,18 @@ class LoginController extends Controller
             return response()->json([
                 'auth' => auth()->check(),
                 'user' => $user,
-                'intended' => $this->redirectPath(),
+                'intended' => url('/') ,
             ]);
 
         }
-        return response()->redirectToIntended();
+        return response()->route('home');
     }
 
     public function redirectPath()
     {
-        if (method_exists($this, 'redirectTo')) {
-            return $this->redirectTo();
-        }
-
-        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/';
+       return route('home');
     }
+
 
 
 }

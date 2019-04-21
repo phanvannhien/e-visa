@@ -5,6 +5,7 @@ namespace App;
 use App\Filters\Filterable;
 use App\Models\Comment;
 use App\Models\Contact;
+use App\Models\Countries;
 use App\Models\Message;
 use App\Models\Order;
 use App\Models\UserAddress;
@@ -104,5 +105,7 @@ class User extends Authenticatable
         return $this->hasMany( Order::class );
     }
 
-
+    public function country(){
+        return $this->belongsTo( Countries::class, 'country_code','code' );
+    }
 }

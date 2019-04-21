@@ -111,14 +111,22 @@
 
         </table>
 
-
+        <table>
+            <tr>
+                <td align="center">
+                    <a href="{{ route('apply.visa.step3', $order->id ) }} " target="_blank" style="background: green; padding: 10px 50px; display:block; color: #FFF">
+                        PAYMENT NOW
+                    </a>
+                </td>
+            </tr>
+        </table>
+        
+        
         <p>
             <strong>Detail of transaction:</strong> <br/>
             {{ app('Configuration')->get('company_name') }} Payment Order ID: #{{ $order->id }} <br/>
             For detail of our Term of Services, please find at {{ url('/') }}
         </p>
-
-
 
    </body>
 </html>

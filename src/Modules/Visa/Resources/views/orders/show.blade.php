@@ -7,7 +7,13 @@
     <!-- Main content -->
     <section class="content">
         <p>
-            <a target="_blank" href="{{ route('pdf.view', $order->id ) }}" class="btn btn-success">View PDF Invoice</a>
+                <a target="_blank" href="{{ route('pdf.view', [
+                    'id' => $order->id,
+                    'type' => $order->payment_status
+                ]) }}" class="btn btn-success btn-sm">
+                    View invoice {{ $order->payment_status }}</a>
+
+                <a class="btn btn-info btn-sm" href="{{ route('order.index') }}">Back to Order list</a>
         </p>
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -45,6 +51,16 @@
                     <div class="panel-body">
                         <p> Payment title: {{ $order->payment_title }}</p>
                         <p> Payment status: <span class="label label-info">{{ $order->payment_status }}</span></p>
+
+                        @if( $order->payment )
+                        <div class="alert alert-info">
+                            Payment Date: {{ $order->payment->created_at }} <br/>
+                            Payment ID: {{ $order->payment->paymentId }}<br/>
+                            Payer ID: {{ $order->payment->PayerID }}<br/>
+                            Payment Title: {{ $order->payment->payment_title }}<br/>
+                        </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

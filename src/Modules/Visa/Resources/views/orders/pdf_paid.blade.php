@@ -59,13 +59,17 @@
     <tr>
         <td>Order ID:</td>
         <td>#{{ $order->id  }}</td>
-        <td rowspan="2" align="center">
-            Status: <span style="font-size: 3rem; text-transform: uppercase; color: red; font-size: 30px">{{ $order->payment_status }}</span>
+        <td rowspan="3" align="center">
+            Status: <span style="font-size: 3rem; text-transform: uppercase; color: green; font-size: 30px">{{ $order->payment_status }}</span>
         </td>
     </tr>
     <tr>
         <td>Customer ID:</td>
         <td>#{{ $order->user->id  }}</td>
+    </tr>
+    <tr>
+        <td>Receipt ID:</td>
+        <td>#{{ $order->payment->id  }}</td>
     </tr>
 </table>
 
@@ -74,6 +78,16 @@
         <td align="center" style="background: red; color: #FFF; font-weight: bold; font-size: 20px">INVOICE</td>
     </tr>
 </table>
+
+<table style="margin-bottom: 30px" class="border" cellpadding="5" cellspacing="0">
+    <tr>
+        <td>Transaction ID</td>
+        <td>{{ $order->payment->paymentId }}</td>
+        <td>Transaction Date</td>
+        <td>{{ $order->payment->created_at }}</td>
+    </tr>
+</table>
+
 
 <h3> Order Informations</h3>
 <table class="border" cellpadding="5" cellspacing="0">
@@ -87,18 +101,17 @@
     </tr>
 
     @foreach( $order->items as $item )
-        <tr>
-            <td class="text-center">{{ $loop->index + 1 }}</td>
-            <td>{{ $item->service_type.': '.$item->service_name }}</td>
-            <td class="text-center">{{ $item->quantity }}</td>
-            <td class="text-end">
-                {{ config('visa.price_prefix').number_format($item->price) }}
-            </td>
-            <td class="text-end"> {{ config('visa.price_prefix').number_format($item->total) }}</td>
-            <td class="text-end"> {{ config('visa.price_prefix').'0' }}</td>
-        </tr>
+    <tr>
+        <td class="text-center">{{ $loop->index + 1 }}</td>
+        <td>{{ $item->service_type.': '.$item->service_name }}</td>
+        <td class="text-center">{{ $item->quantity }}</td>
+        <td class="text-end">
+            {{ config('visa.price_prefix').number_format($item->price) }}
+        </td>
+        <td class="text-end"> {{ config('visa.price_prefix').number_format($item->total) }}</td>
+        <td class="text-end"> {{ config('visa.price_prefix').'0' }}</td>
+    </tr>
     @endforeach
-
     <tr>
         <td colspan="4" class="text-end">
             Total (USD)
@@ -108,7 +121,6 @@
         </td>
         <td class="text-red text-end">$0.00</td>
     </tr>
-
 </table>
 
 
@@ -117,7 +129,6 @@
     {{ app('Configuration')->get('company_name') }} Payment Order ID: #{{ $order->id }} <br/>
     For detail of our Term of Services, please find at {{ url('/') }}
 </p>
-
 
 
 </body>

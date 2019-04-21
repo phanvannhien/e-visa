@@ -26,6 +26,8 @@ Route::group([
 
 
     Route::resource('order','Admin\OrderController');
-    Route::get('order/{id}/view-pdf','Admin\OrderController@viewPDF')->name('pdf.view');
+    Route::resource('visa_discount','VisaDiscountController');
+    
+    Route::get('order/{id}/view-pdf/{type}','Admin\OrderController@viewPDF')->name('pdf.view');
 });
 

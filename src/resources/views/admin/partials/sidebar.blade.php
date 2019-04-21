@@ -120,6 +120,9 @@
                 </a>
                 <ul class="treeview-menu">
 
+
+
+
                     <li class="{{ ($currentRouteName->getName() == 'continent.index') ? 'active' : '' }}">
                         <a href="{{ route('continent.index') }}">
                             <i class="fa fa-angle-right"></i>{{ trans('admin.continent') }}
@@ -158,6 +161,13 @@
                 </span>
                 </a>
                 <ul class="treeview-menu">
+                    <li class="{{ ($currentRouteName->getName() == 'email-template.index') ? 'active' : '' }}">
+                        <a href="{{ route('email-template.index') }}">
+                            <i class="fa fa-angle-right"></i> @lang('email_template.email_template')
+                        </a>
+                    </li>
+
+
                     <li class="">
                         <a href="{{ route('configuration.index') }}">
                             <i class="fa fa-angle-right"></i> @lang('configurations.configurations')

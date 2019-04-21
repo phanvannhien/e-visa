@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <p class="text-center">
-                        <button type="submit" class="btn btn-warning" >Continue</button>
+                        <button type="submit" class="btn btn-warning" >Continue <i class="fa fa-angle-right"></i></button>
                     </p>
                 </form>
             </div>

@@ -1,6 +1,6 @@
 
 <?php
-$nowIndia = \Carbon\Carbon::now(new DateTimeZone('Europe/London'));
+$nowIndia = \Carbon\Carbon::now();
 $step = request()->get('step') ?? 1;
 
 if( session()->has('cart.quantity') ){
@@ -67,7 +67,22 @@ if( session()->has('cart.port') ){
     </div>
 @endif
 
+@if( session()->has('cart.discount') )
+<p class="clearfix">
+        <strong>Discount</strong> <br>
+        <span class="float-right">${{ session()->get('cart.discount')  }}</span>
+    </p>
+
+@endif
+
 <div class="cart-footer clearfix">
-    <strong class="float-left">Total Service Fees</strong>
-    <span class="total float-right">{{ $processing_fee['price'] + ( $service_fee['price'] * $quantity ) }}</span>
+    <strong class="float-left">Total Fees</strong>
+    <span class="total float-right">{{ config('visa.price_prefix') }} 
+        <?php
+            $total = $processing_fee['price'] + ( $service_fee['price'] * $quantity );
+            if( session()->has('cart.discount') ){
+                $total = $total - session()->get('cart.discount');
+            }
+        ?>
+        {{ $total }}</span>
 </div>

@@ -19,7 +19,7 @@ $step = session()->get('cart.step');
     <div class="row mb-4">
         <div class="col-md-3"><a class="btn btn-block {{ $step == 1 ? 'btn-info':'btn-primary' }}" href="{{ route('apply.visa.step1') }}">1. Information for e-Visa</a></div>
         <div class="col-md-3"><a class="btn btn-block {{ $step == 2 ? 'btn-info':'btn-primary' }}" href="{{ route('apply.visa.step2') }}">2. E-Visa Details</a></div>
-        <div class="col-md-3"><a class="btn btn-block {{ $step == 3 ? 'btn-info':'btn-primary' }}" href="{{ route('apply.visa.step3') }}">3. Payments</a></div>
-        <div class="col-md-3"><a class="btn btn-block {{ $step == 4 ? 'btn-info':'btn-primary' }}" href="{{ route('apply.visa.step4') }}">4. Confirmation</a></div>
+        <div class="col-md-3"><a class="btn btn-block {{ $step == 3 ? 'btn-info':'btn-primary' }}" href="#">3. Payments</a></div>
+        <div class="col-md-3"><a class="btn btn-block {{ $step == 4 ? 'btn-info':'btn-primary' }}" href="#">4. Confirmation</a></div>
     </div>
 </div>
