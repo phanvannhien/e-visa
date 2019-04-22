@@ -18,8 +18,7 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <td>Min quantity</td>
-                        <td>Max quantity</td>
+                        <td>Min - Max quantity</td>
                         <td>Discount ($)</td>
                         <td></td>
                     </tr>
@@ -29,17 +28,15 @@
                         <tr>
                         
                             <td class="text-danger"> 
-                                {{ $item->quantity_min }}
+                                {{ $item->quantity_min }} - {{ $item->quantity_max }}
                             </td>
-                            <td class="text-danger">
-                                {{ $item->quantity_max }}
-                            </td>
+                    
                             <td class="text-danger">
                                 {{ $item->discount }}
                             </td>
                             <td>
                                 <a href="{{ route('visa_discount.edit', $item->id ) }}" class="btn btn-sm btn-success">Edit</a>
-                                <form method="post" action="{{ route('visa_discount.destroy', $item->id ) }}">
+                                <form class="form form-inline pull-left" method="post" action="{{ route('visa_discount.destroy', $item->id ) }}">
                                     @method('DELETE')
                                     @csrf
                                     <button onclick="return confirm('Are you sure')" type="submit" name="submit" class="btn btn-danger btn-sm">Delete</button>

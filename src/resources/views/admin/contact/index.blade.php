@@ -17,6 +17,7 @@
                         <td>{{ trans('app.your_email') }}</td>
                         <td>{{ trans('app.your_subject') }}</td>
                         <td>{{ trans('app.message') }}</td>
+                        <td>Created at</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,7 @@
                             <td>
                                 {!! $item->message !!}
                             </td>
+                            <td>{{ $item->created_at }}</td>
                         </tr>
                     @endforeach
                     </tbody>

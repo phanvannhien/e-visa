@@ -10,7 +10,7 @@ use Auth;
 class ContactController extends Controller
 {
     public function index(){
-        $data = Contact::paginate();
+        $data = Contact::orderBy('created_at','DESC')->paginate();
         return view('admin.contact.index', compact('data'));
     }
 }

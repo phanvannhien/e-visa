@@ -41,13 +41,6 @@ Route::get('/contact-us.html','HomeController@contact')->name('company.contact')
 Route::post('/contact-us.html','HomeController@contactSave')->name('company.contact.post');
 
 
-
-Route::get('/gioi-thieu.html','HomeController@about')->name('company.about');
-Route::get('/dieu-khoan-su-dung.html','HomeController@terms')->name('company.terms');
-
-
-
-
 // Page
 Route::get('/{slug}-t{id}.html', 'HomeController@pageDetail')->where([
     'slug' => '[a-z0-9-]+',
@@ -79,25 +72,9 @@ Route::group([
 ], function() {
     Route::get('district', 'AjaxController@district')->name('ajax.district');
 
-    Route::get('cart', 'CartController@ajaxCart')->name('ajax.cart');
-    Route::delete('cart', 'CartController@removeItemCart')->name('ajax.delete.cart');
-    Route::get('get_reviews', 'ReviewController@reviews')->name('ajax.reviews');
-
-    Route::post('favorite', 'CustomerController@addFavorite')->name('ajax.favorite')->middleware('auth');
-
 });
 
 
-
-// Customer routes
-
-Route::post('product/addcart', 'CartController@addcart')->name('product.addcart');
-Route::post('purchase-now', 'CartController@purchaseNow')->name('purchase');
-Route::get('gio-hang.html', 'CartController@viewcart')->name('cart.view');
-Route::post('gio-hang.html', 'CartController@updatecart')->name('cart.update');
-Route::get('thanh-toan.html', 'CartController@checkout')->name('cart.checkout');
-Route::post('thanh-toan.html', 'CartController@checkoutSave')->name('cart.checkout.save');
-Route::get('thanh-toan/{order_id}/thanh-cong.html', 'CartController@checkoutSuccess')->name('cart.checkout.success');
 
 Route::group([
     'middleware' => 'auth',
@@ -120,7 +97,6 @@ Route::group([
     Route::get('ho-so-ca-nhan.html', 'CustomerController@profile')->name('customer.profile');
     Route::post('ho-so-ca-nhan.html', 'CustomerController@profileSave')->name('customer.profile.save');
 
-    Route::post('gui-danh-gia.html', 'ReviewController@review')->name('customer.review');
 
 
 });

@@ -65,17 +65,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="subject" class="col-sm-3">Attach file</label>
-                        <div class="col-sm-9">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
-                            <p>Attach Files
-                                (*.jpg, *.jpeg, *.png, *.gif, *.bmp, *.pdf, *.txt, *.doc, *.docx, *.xls, *.xlsx, <= 20MB/file, limit 3 files)</p>
-                        </div>
-                    </div>
+            
 
                     <button type="submit" name="submit" class="btn btn-primary float-right">SEND</button>
                 </form>

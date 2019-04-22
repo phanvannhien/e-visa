@@ -34,24 +34,12 @@ use Cart;
 use Session;
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-
     protected $agent;
-
     public function __construct()
     {
        $this->agent = new Agent();
     }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // home page
     public function index(Request $request, Agent $agent)
     {
         $expiresAt = now()->addMinutes(10);
@@ -87,7 +75,7 @@ class HomeController extends Controller
 
         return view('theme.home', compact('posts','blogcat'));
     }
-
+    // product categories
     public function category( Request $request, $slug, $id ){
         $expiresAt = now()->addMinutes(10);
 
@@ -144,7 +132,7 @@ class HomeController extends Controller
         return view('theme.products.category', compact('categories','category', 'products'));
 
     }
-
+    // Product detail
     public function detail(Request $request, $slug, $id){
 
 
@@ -209,7 +197,7 @@ class HomeController extends Controller
 
         return view('theme.products.detail', compact('product','related'));
     }
-
+    // Page detail
     public function pageDetail(Request $request, $slug, $id){
         $expiresAt = now()->addMinutes(10);
 
@@ -260,7 +248,7 @@ class HomeController extends Controller
         return view('theme.pages.page', compact('page'));
 
     }
-
+    // Blog category
     public function blogCategory( Request $request, $slug, $id ){
         $expiresAt = now()->addMinutes(10);
 
@@ -311,7 +299,7 @@ class HomeController extends Controller
         Twitter::setImage(  $category->image  );
         return view('theme.blogs.category', compact('categories', 'category', 'posts'));
     }
-
+    // Blog detail
     public function blogDetail(Request $request, $slug, $id){
         $expiresAt = now()->addMinutes(10);
 
@@ -379,67 +367,7 @@ class HomeController extends Controller
 
         return view('theme.blogs.detail', compact('blog','categories','related'));
     }
-
-    public function template(Request $request){
-        $expiresAt = now()->addMinutes(10);
-
-        $paged = $request->has('page') ? $request->get('page') : 1;
-
-        if( Cache::has('templates') ){
-            $templates = Cache::get('templates'.$paged );
-        }else{
-            $templates = Product::paginate();
-            Cache::put('templates'. $paged, $templates, $expiresAt);
-        }
-
-        if( Cache::has('categories') ){
-            $categories = Cache::get('categories');
-        }else{
-            $categories = Category::whereNull('parent_id')->where('status',1)->get();
-            Cache::put('categories', $categories, $expiresAt);
-        }
-
-        OpenGraph::setUrl( $request->getUri());
-        OpenGraph::addProperty('image:url', url('img/thiet-ke-website-nen-chon.jpg') );
-        OpenGraph::addProperty('image:alt', app('Configuration')->get('site_title') );
-
-        OpenGraph::addProperty('type', 'website');
-        OpenGraph::addProperty('url', $request->getUri() );
-        OpenGraph::addProperty('locale', app()->getLocale() );
-        OpenGraph::addProperty('site_name', app('Configuration')->get('company_name') );
-
-        Twitter::setTitle( app('Configuration')->get('site_title') );
-        Twitter::setImage( url('img/thiet-ke-website-nen-chon.jpg')  );
-
-
-        return view('theme.pages.templates', compact('templates', 'categories'));
-    }
-
-    public function client( Request $request ){
-        if( Cache::has('clients') ){
-            $clients = Cache::get('clients');
-        }else{
-            $expiresAt = now()->addMinutes(10);
-            $clients = Client::all();
-            Cache::put('clients', $clients, $expiresAt);
-        }
-
-        OpenGraph::setUrl( $request->getUri());
-        OpenGraph::addProperty('image:url', url('img/thiet-ke-website-nen-chon.jpg') );
-        OpenGraph::addProperty('image:alt', app('Configuration')->get('site_title') );
-
-        OpenGraph::addProperty('type', 'website');
-        OpenGraph::addProperty('url', $request->getUri() );
-        OpenGraph::addProperty('locale', app()->getLocale() );
-        OpenGraph::addProperty('site_name', app('Configuration')->get('company_name') );
-
-        Twitter::setTitle( app('Configuration')->get('site_title') );
-        Twitter::setImage( url('img/thiet-ke-website-nen-chon.jpg')  );
-
-
-        return view('theme.pages.clients', compact('clients'));
-    }
-
+    // Contact us
     public function contact(  Request $request ){
         if( Cache::has('stores') ){
             $stores = Cache::get('stores');
@@ -463,7 +391,7 @@ class HomeController extends Controller
 
         return view('theme.pages.contact', compact('stores'));
     }
-
+    // Contact us save
     public function contactSave(Request $request){
         $rules = [
             'full_name' => 'required|string',
@@ -472,6 +400,8 @@ class HomeController extends Controller
             'subject' => 'required|string',
             'message' => 'required|string',
             'topic' => 'required|string',
+            'attach_file' => 'max:3',
+            'attach_file.*' => 'mimes:jpg,jpeg,bmp,png,gif,pdf,txt,doc,docx,xls,xlsx|max:5120'
         ];
 
 
@@ -495,7 +425,6 @@ class HomeController extends Controller
 
 
     }
-
 
 
 }
