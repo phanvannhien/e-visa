@@ -1,4 +1,4 @@
-<div id="user-sidebar">
+<div id="user-sidebar" class="mb-3 mb-sm-0">
     <ul class="list-group">
         <li class="list-group-item"><a href="{{ route('customer.order') }}"><i class="far fa-folder"></i> @lang('customer.order')</a></li>
         <li class="list-group-item"><a href="{{ route('customer.profile') }}"><i class="far fa-user"></i> @lang('customer.profile')</a></li>

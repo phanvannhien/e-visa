@@ -1,10 +1,9 @@
 #open-mobile-menu{
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   font-size: 2rem;
   color: #FFF;
-
   i{
     &:before{
       content: "\f0c9";
@@ -23,7 +22,7 @@
   @include media-breakpoint-down(sm){
     display: flex;
   }
-  @include media-breakpoint-up(md){
+  @include media-breakpoint-up( lg ){
     display: none;
   }
 
@@ -79,7 +78,7 @@ header{
   }
 
 
-  @include media-breakpoint-down(sm){
+  @include media-breakpoint-down(md){
     background: #F93;
     #logo{
       text-align: center;
@@ -89,7 +88,7 @@ header{
     }
   }
 
-  @include media-breakpoint-up(sm){
+  @include media-breakpoint-up( lg ){
     #header-main{
       background-image: url("~/images/bg-head.png");
       background-repeat: no-repeat;
@@ -269,6 +268,11 @@ MAIN NAV
   padding: 0.5rem 1rem;
   a{
     color: #FFF;
+  }
+  @include media-breakpoint-down(sm){
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 0;
   }
 }
 

@@ -9,7 +9,7 @@
 <div id="step2" class="">
     <div class="container">
         <div class="row align-items-stretch">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <form id="frm-visa" action="{{ route('apply.visa.step2.save') }}" method="post">
                     @csrf
                     @include('theme.partials.messages')
@@ -114,7 +114,7 @@
                     </p>
                 </form>        
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div id="cart">
                     <div class="wrap-loadding justify-content-center align-items-center">
                         <div class="spinner-grow text-warning" role="status">

@@ -52,8 +52,17 @@ jQuery(document).ready(function(){
     if( input ){
         window.intlTelInput(input);
     }
-   
 
+    $("#mobile-nav").mmenu({
+        "navbars": [
+            {
+                "position": "top",
+                "content": [
+                    "searchfield"
+                ]
+            }
+        ]
+    });
 
     // $(window).scroll(function() {
     //     if ($(this).scrollTop() > 200) {
@@ -143,157 +152,9 @@ jQuery(document).ready(function(){
 
     });
 
-    $('#open-mini-cart').on('click', function (e) {
-        e.preventDefault();
-        openMiniCart();
-    });
 
 
-    $('#more-description').on('click', function (e) {
-        e.preventDefault();
-        if( $('#product-description').hasClass('active') ){
-            $('#product-description').css({
-                'max-height': '70rem'
-            }).removeClass('active');
-            $(this).html('Xem thêm <i class="la la-angle-down"></i>')
-        }else{
-            $('#product-description').css({
-                'max-height': '100%'
-            }).addClass('active');
-            $(this).html('Thu gọn <i class="la la-angle-up"></i>');
-        }
 
-    });
-
-
-    $('#product-galleries').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: true,
-        centerMode: false,
-        centerPadding: '0',
-        autoplay: true,
-        autoplaySpeed: 2000,
-        fade: true,
-        asNavFor: '#product-thumbs',
-        nextArrow: '<button class="slick-next"><i class="la la-angle-right"></button>',
-        prevArrow: '<button class="slick-prev"><i class="la la-angle-left"></button>',
-    });
-
-    $('#product-thumbs').slick({
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        asNavFor: '#product-galleries',
-        focusOnSelect: true,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        nextArrow: '<button class="slick-next"><i class="la la-angle-right></button>',
-        prevArrow: '<button class="slick-prev"><i class="la la-angle-left"></button>',
-
-    });
-
-
-    // $('.star-rating').barrating({
-    //     theme: 'fontawesome-stars'
-    // });
-
-
-    // $('#btn-review').on( 'click', function(e){
-    //     e.preventDefault();
-    //     var form = $(this).closest('form');
-    //     console.log(form);
-    //     var url = form.attr('action');
-
-    //     var reviewTitle = $(form).find('#your_rating_title');
-    //     var reviewContent = $(form).find('textarea');
-
-    //     if ( $(reviewTitle).val() == '' ) {
-    //         $(reviewTitle).addClass('is-invalid').focus();
-    //         return false;
-    //     }
-
-    //     if ( $(reviewContent).val() == '' ) {
-    //         $(reviewContent).addClass('is-invalid').focus();
-    //         return false;
-    //     }
-    //     $.ajax({
-    //         url: url,
-    //         type: 'post',
-    //         data: form.serializeArray(),
-    //         beforeSend: function () {
-    //             $(form).find('.wrap-loadding').show();
-    //         },
-    //         success: function ( response ) {
-    //             $(form).find('.wrap-loadding').hide();
-    //             if( response.success ){
-    //                 toastr.success( response.msg );
-    //             }else{
-    //                 toastr.error( response.msg );
-    //             }
-    //             form[0].reset();
-
-    //         },
-
-    //     });
-
-    // });
-
-
-    $('.btn-add-cart').on( 'click', function(e){
-        e.preventDefault();
-        var form = $(this).closest('form#form-addcart');
-        var url = form.attr('action');
-        $.ajax({
-            url: url,
-            type: 'post',
-            dataType: 'json',
-            data: form.serializeArray(),
-            beforeSend: function () {
-                $('body').addClass('loading');
-            },
-            success: function ( response ) {
-                $('body').removeClass('loading');
-                if(response.success){
-                    toastr.success( response.msg );
-                    $('#total-cart-item').text( response.cart_count );
-                    openMiniCart();
-                }else{
-                    toastr.error( response.msg );
-                }
-
-            },
-
-        });
-
-    });
-
-    $('#side-cart').on( 'click', '.remove-item-minicart', function(e){
-        e.preventDefault();
-        var $container = $('#side-cart');
-        var $item = $(this).parent('.mini-cart-item');
-        $.ajax({
-            url: '/ajax/cart',
-            type: 'DELETE',
-            dataType: 'json',
-            data: { pid: $(this).attr('data-pid') },
-            beforeSend: function () {
-                $container.find('.wrap-loadding').show();
-            },
-            success: function ( response ) {
-                $container.find('.wrap-loadding').hide();
-                if(response.success){
-                    // $item.remove();
-                    $('#total-cart-item').text( response.cart_count );
-                    openMiniCart();
-                }else{
-                    toastr.error( response.msg );
-                }
-
-            },
-
-        });
-
-    });
 
 
     $('#sl-cities').on('change', function (e) {
@@ -328,41 +189,7 @@ jQuery(document).ready(function(){
     });
 
 
-    $('.save-to-favorite').on( 'click', function(e){
-        e.preventDefault();
-        var pid = $(this).attr('data-id');
-        var that = this;
-        $.ajax({
-            url: 'ajax/favorite',
-            type: 'post',
-            dataType: 'json',
-            data: {
-                id: pid
-            },
-            beforeSend: function () {
-                $('body').addClass('loading');
-            },
-            success: function ( response ) {
-                $('body').removeClass('loading');
-                if( response.success ){
-                    if( response.type == 'add' ){
-                        $(that).find('i').attr('class','la la-heart la-2x');
-                    }
-                    if( response.type == 'remove' ){
-                        $(that).find('i').attr('class','la la-heart-o la-2x');
-                    }
-                    toastr.success( response.msg );
-                }else{
-                    toastr.error( response.msg );
-                }
-            },
-            error: function(  jqXHR,  textStatus,  errorThrown){
-                $('body').removeClass('loading');
-                toastr.error( 'Error' );
-            }
-        });
 
-    });
 
 
 });

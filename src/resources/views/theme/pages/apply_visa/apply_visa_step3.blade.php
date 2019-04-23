@@ -8,7 +8,6 @@
                 @csrf
                 @include('theme.partials.messages')
                 <h3>PAYMENT</h3>
-
                 <p class="text-center">
                     <img src="{{ url('images/method-paypal.png') }}" alt="">
                 </p>

@@ -2,24 +2,24 @@
 <header>
     <div id="header-main" class="container">
         <div class="row align-items-center no-gutters">
-            <div class="col-4 d-md-none">
+            <div class="col-4 d-lg-none">
                 <a href="#mobile-nav" id="open-mobile-menu">
                     <i class="fas fa-bars"></i>
                 </a>
             </div>
-            <div class="col-4 col-sm-4">
+            <div class="col-4 col-sm-5 col-md-4">
                 <div id="logo">
                     <a title="{{ config('app.name') }}" href="{{ url('/') }}">
                         <img src="{{ url('images/logo.png') }}" alt="{{ config('app.name') }}" />
                     </a>
                 </div>
             </div>
-            <div class="col-4 col-sm-8">
-                <div id="search-form" class="d-none d-sm-block">
+            <div class="col-4 col-sm-7 col-md-4">
+                <div id="search-form" class="d-none d-lg-block">
                     <div>
-                        <a href="">Q&A</a> / <a href="">Check status</a>
+
                         @if( !Auth::check() )
-                        <a href=""><i class="la la-user"></i> Hello: Guest</a>
+                        <a href="{{ route('login') }}"><i class="la la-user"></i> Hello: Guest</a>
                         @else
                             <a href="{{ route('customer.dashboard') }}">
                                 <i class="la la-user"></i> Hello: {{ auth()->user()->full_name }}</a> |
@@ -50,7 +50,7 @@
                             MY ACCOUNT</a>
                         @else
                         <a href="{{ route('login') }}"><span class="menu-icon d-block text-center">
-                                <i class="fa fa-lock"></i></span>LOGIN/ REGISTER</a>
+                                <i class="fa fa-user"></i></span>LOGIN</a>
                     @endif
                 </div>
                 @endif

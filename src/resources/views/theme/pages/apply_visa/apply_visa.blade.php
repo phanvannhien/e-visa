@@ -31,7 +31,7 @@
             {!! $rush_visa->block_content !!}
             @endif
         <div class="row align-items-stretch">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <form id="frm-visa" action="{{ route('apply.visa.step1.save') }}" method="post">
                     @csrf
                     <div class="form-group row">
@@ -103,7 +103,7 @@
                     </p>
                 </form>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div id="cart">
                     <div class="wrap-loadding justify-content-center align-items-center">
                         <div class="spinner-grow text-warning" role="status">
