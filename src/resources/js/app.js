@@ -15,11 +15,11 @@ require('./page');
  */
 
 
-window.Vue = require('vue')
-Vue.component('reviews-manager', require('./components/reviews/Review.vue'));
+// window.Vue = require('vue')
+// Vue.component('reviews-manager', require('./components/reviews/Review.vue'));
 
 
 
-new Vue({
-    el: '#app',
-})
+// new Vue({
+//     el: '#app',
+// })

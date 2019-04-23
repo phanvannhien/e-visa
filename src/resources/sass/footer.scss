@@ -25,6 +25,7 @@ footer{
         }
       }
     }
+
   }
 
   #footer-main{
@@ -52,6 +53,22 @@ footer{
     list-style: none;
     padding: 0;
     margin: 0;
+  }
+
+  @include media-breakpoint-down(sm){
+    #footer-top{
+      .footer-menu{
+        li{
+          width: 100%;
+          border-bottom: 1px solid rbga( 255,255,255,0.3 );
+          border-right: none;
+          .menu-icon{
+            margin-right: 7px;
+          }
+        }
+      }
+    }
+    
   }
 
 

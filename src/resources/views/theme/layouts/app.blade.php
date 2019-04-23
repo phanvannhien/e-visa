@@ -124,7 +124,7 @@
     @endphp
     <div id="app">
         @include('theme.partials.header')
-        <main>
+        <main class="py-4">
         @yield('main')
         </main>
         @include('theme.partials.footer')
@@ -140,8 +140,15 @@
             </div>
         </div>
     </div>
+    @if( Agent::isMobile() )
+    <div id="mobile-nav">
+        {!! App\Utils\Category::renderMenuHTML( $primaryNavItems, 'primary-menu' ) !!}
+    </div>
+    @endif
+
     <script src="{{ url('js/app.js') }}"></script>
     @yield('footer')
+    {!! app('Configuration')->get('tawkto') !!}
 
 </body>
 </html>

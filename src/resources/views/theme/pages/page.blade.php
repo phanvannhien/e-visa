@@ -3,7 +3,6 @@
 @section('main')
     <div id="breadcrumbs">
         <div class="container">
-            <i class="fa fa-home"></i>
             {{ Breadcrumbs::render('page', $page ) }}
         </div>
     </div>

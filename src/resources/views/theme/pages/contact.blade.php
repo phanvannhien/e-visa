@@ -14,10 +14,9 @@
             Your transaction will be secured using SSL/TLS encryption.
         </p>
         <div class="row">
-
-            <div class="col-md-6 offset-3">
+            <div class="col-md-6 offset-md-3">
                 @include('theme.partials.messages')
-                <form action="{{ route('company.contact.post') }}" method="post">
+                <form id="contact-form" class="clearfix" action="{{ route('company.contact.post') }}" method="post">
                     @csrf
                     <div class="form-group row">
                         <label for="full_name" class="col-sm-3">Full name <span class="text-danger">*</span></label>

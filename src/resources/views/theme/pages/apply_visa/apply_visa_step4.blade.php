@@ -7,17 +7,14 @@
     ?>
 
     @include('theme.pages.apply_visa.apply_header')
-
-    <div id="step4" class="mb-4">
+    <div id="step4" class="">
         <div class="container">
             @include('theme.partials.messages')
-
             <p class="text-center">
                 Thanks for your payment success
             </p>
         </div>
     </div>
-
 @stop
 @section('footer')
     @include('theme.pages.apply_visa.script')

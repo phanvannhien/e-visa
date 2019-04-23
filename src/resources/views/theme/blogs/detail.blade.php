@@ -22,7 +22,7 @@
                 </div>
 
                 <p class="text-center">
-                    <a href="{{ route('apply.visa') }}" class="btn btn-primary text-uppercase">Apply for Visa Now</a>
+                    <a href="{{ route('apply.visa.step1') }}" class="btn btn-primary text-uppercase">Apply for Visa Now</a>
                 </p>
 
                 @if( $related )

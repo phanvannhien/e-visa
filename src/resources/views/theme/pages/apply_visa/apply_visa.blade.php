@@ -27,7 +27,6 @@
         @if( Request::has('rush') && Request::get('rush') == 1)
             <?php
                 $rush_visa = \App\Models\Block::where('block_code', 'rush_visa' )->first();
-
             ?>
             {!! $rush_visa->block_content !!}
             @endif

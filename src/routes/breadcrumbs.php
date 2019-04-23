@@ -1,7 +1,7 @@
 <?php
 
 Breadcrumbs::for('home', function ($trail) {
-    $trail->push('Home', route('home'));
+    $trail->push('<i class="fa fa-home"></i> Home', route('home') );
 });
 
 Breadcrumbs::for('contact', function ($trail) {

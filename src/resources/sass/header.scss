@@ -3,11 +3,11 @@
   justify-content: flex-end;
   align-items: center;
   font-size: 2rem;
-  color: #518166;
-  font-family: "LineAwesome";
+  color: #FFF;
+
   i{
     &:before{
-      content: "\F131";
+      content: "\f0c9";
     }
   }
 
@@ -52,7 +52,6 @@ header{
   position: relative;
   z-index: 1;
   transition: all 500ms ease;
-  margin-bottom: 1rem;
 
   #logo{
     img{
@@ -75,21 +74,31 @@ header{
     }
   }
 
+  #header-main{
+    
+  }
+
+
   @include media-breakpoint-down(sm){
+    background: #F93;
     #logo{
+      text-align: center;
       img{
         max-height: 1.5rem;
       }
     }
   }
 
-  #header-main{
-    background-image: url("~/images/bg-head.png");
-    background-repeat: no-repeat;
-    background-position: center right;
-    color: #FFF;
-
+  @include media-breakpoint-up(sm){
+    #header-main{
+      background-image: url("~/images/bg-head.png");
+      background-repeat: no-repeat;
+      background-position: center right;
+      color: #FFF;
+    }
   }
+
+
 
 }
 

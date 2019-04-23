@@ -73,7 +73,9 @@ class HomeController extends Controller
         Twitter::setTitle( $configuration->get('site_title') );
         Twitter::setImage( url('img/thiet-ke-website-nen-chon.jpg')  );
 
-        return view('theme.home', compact('posts','blogcat'));
+        if( $this->agent->isDesktop() )
+            return view('theme.home', compact('posts','blogcat'));
+        return redirect()->route('apply.visa.step1');    
     }
     // product categories
     public function category( Request $request, $slug, $id ){

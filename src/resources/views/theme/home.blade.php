@@ -47,7 +47,7 @@
             <h2>{{ $blogcat->category_name }}</h2>
             <div class="row align-items-stretch">
                 @foreach( $posts as $blog )
-                    <div class="col-md-3 col-sm-6 mb-3 mb-sm-0">
+                    <div class="col-6 col-md-3 mb-3 mb-sm-0">
                         <div class="blog-item">
                             <a title=" {{ $blog->blog_title }}" href="{{ route('blog.detail', [ 'id' => $blog->id, 'slug' => $blog->slug ]) }}">
                                 <img class="img-fluid" src="{{ $blog->blog_thumbnail }}" alt=" {{ $blog->blog_title }}">
@@ -58,7 +58,7 @@
                                         {{ $blog->blog_title }}
                                     </a>
                                 </h3>
-                                <div class="post-excerpt">
+                                <div class="d-none d-sm-block post-excerpt">
                                     {{ $blog->blog_excerpt }}
                                 </div>
                             </div>

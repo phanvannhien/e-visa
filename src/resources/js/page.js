@@ -7,16 +7,16 @@
 
 require('slick-carousel');
 require('magnific-popup');
-require('jquery-bar-rating');
-
+// require('jquery-bar-rating');
+require('jquery.mmenu');
 window.toastr = require('toastr');
 window.intlTelInput = require('intl-tel-input');
 
-const WOW = require('wowjs');
+// const WOW = require('wowjs');
 
-window.wow = new WOW.WOW({
-    live: false
-});
+// window.wow = new WOW.WOW({
+//     live: false
+// });
 
 $.ajaxSetup({
     headers: {
@@ -44,13 +44,15 @@ function openMiniCart() {
 }
 
 jQuery(document).ready(function(){
-    window.wow.init();
+    // window.wow.init();
 
     $('.popover').popover();
 
     var input = document.querySelector("#phone");
-    window.intlTelInput(input);
-
+    if( input ){
+        window.intlTelInput(input);
+    }
+   
 
 
     // $(window).scroll(function() {
@@ -191,50 +193,50 @@ jQuery(document).ready(function(){
     });
 
 
-    $('.star-rating').barrating({
-        theme: 'fontawesome-stars'
-    });
+    // $('.star-rating').barrating({
+    //     theme: 'fontawesome-stars'
+    // });
 
 
-    $('#btn-review').on( 'click', function(e){
-        e.preventDefault();
-        var form = $(this).closest('form');
-        console.log(form);
-        var url = form.attr('action');
+    // $('#btn-review').on( 'click', function(e){
+    //     e.preventDefault();
+    //     var form = $(this).closest('form');
+    //     console.log(form);
+    //     var url = form.attr('action');
 
-        var reviewTitle = $(form).find('#your_rating_title');
-        var reviewContent = $(form).find('textarea');
+    //     var reviewTitle = $(form).find('#your_rating_title');
+    //     var reviewContent = $(form).find('textarea');
 
-        if ( $(reviewTitle).val() == '' ) {
-            $(reviewTitle).addClass('is-invalid').focus();
-            return false;
-        }
+    //     if ( $(reviewTitle).val() == '' ) {
+    //         $(reviewTitle).addClass('is-invalid').focus();
+    //         return false;
+    //     }
 
-        if ( $(reviewContent).val() == '' ) {
-            $(reviewContent).addClass('is-invalid').focus();
-            return false;
-        }
-        $.ajax({
-            url: url,
-            type: 'post',
-            data: form.serializeArray(),
-            beforeSend: function () {
-                $(form).find('.wrap-loadding').show();
-            },
-            success: function ( response ) {
-                $(form).find('.wrap-loadding').hide();
-                if( response.success ){
-                    toastr.success( response.msg );
-                }else{
-                    toastr.error( response.msg );
-                }
-                form[0].reset();
+    //     if ( $(reviewContent).val() == '' ) {
+    //         $(reviewContent).addClass('is-invalid').focus();
+    //         return false;
+    //     }
+    //     $.ajax({
+    //         url: url,
+    //         type: 'post',
+    //         data: form.serializeArray(),
+    //         beforeSend: function () {
+    //             $(form).find('.wrap-loadding').show();
+    //         },
+    //         success: function ( response ) {
+    //             $(form).find('.wrap-loadding').hide();
+    //             if( response.success ){
+    //                 toastr.success( response.msg );
+    //             }else{
+    //                 toastr.error( response.msg );
+    //             }
+    //             form[0].reset();
 
-            },
+    //         },
 
-        });
+    //     });
 
-    });
+    // });
 
 
     $('.btn-add-cart').on( 'click', function(e){

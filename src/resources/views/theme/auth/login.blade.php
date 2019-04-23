@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-6">
-				<form action="{{ route('login') }}" id="frm-login" class="p-0 pr-md-5">
+				<form action="{{ route('login') }}" id="frm-login" class="p-4 p-sm-0 mb-4 mb-sm-0 pr-md-5 auth-form">
 					<div id="alert"></div>
 					<p><strong>I am a return customer – Login here</strong></p>
 					<div class="form-group row">
@@ -33,12 +33,13 @@
 						<button id="btn-login" class="btn btn-info">@lang('customer.login')</button>
 
 					</div>
+					@include('theme.auth.social')
 				</form>
-				@include('theme.auth.social')
+				
 			</div>
 			<div class="col-sm-6">
 
-				<form action="{{ route('register') }}" id="frm-register" class="p-0 pl-md-5">
+				<form action="{{ route('register') }}" id="frm-register" class="p-4 p-sm-0 pl-md-5 auth-form">
 					<div id="alert"></div>
 					<p><strong>I am a new customer - Create account here</strong></p>
 					<div class="form-group row">
