@@ -154,9 +154,6 @@ jQuery(document).ready(function(){
 
 
 
-
-
-
     $('#sl-cities').on('change', function (e) {
         var data = $(this).val();
         $.ajax({
@@ -187,8 +184,6 @@ jQuery(document).ready(function(){
             $('#new-address').collapse("hide");
         }
     });
-
-
 
 
 

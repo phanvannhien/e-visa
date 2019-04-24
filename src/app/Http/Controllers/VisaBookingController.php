@@ -61,7 +61,7 @@ class VisaBookingController extends Controller
         $quantity = 1;
         Session::put( 'cart.step', 1 );
         if( !session()->has( 'cart.service_fee' ) ){
-            $visa_type = VisaService::where('service_type','visa_fee')->firstOrFail();
+            $visa_type = VisaService::where('service_type','visa_fee')->where('default',1)->firstOrFail();
             Session::put('cart.service_fee', array(
                 'id' => $visa_type->id,
                 'name' => $visa_type->service_name ,
@@ -85,7 +85,7 @@ class VisaBookingController extends Controller
             }
         }else{
             if( !session()->has( 'cart.processing_fee' ) ){
-                $processing = VisaService::where('service_type','visa_processing')->firstOrFail();
+                $processing = VisaService::where('service_type','visa_processing')->where('default',1)->firstOrFail();
                 Session::put('cart.processing_fee', array(
                     'id' => $processing->id,
                     'name' => $processing->service_name ,
@@ -368,7 +368,7 @@ class VisaBookingController extends Controller
     // ajax
     public function applyVisaPost(Request $request){
 
-        if( $request->ajax() && $request->has('action') && $request->input('action') == 'update_qty' )
+        if( $request->ajax() && $request->has('action') )
         {
             $quantity = $request->input('quantity') ;
             $visa_type = VisaService::findOrFail( $request->input('visa_type') );

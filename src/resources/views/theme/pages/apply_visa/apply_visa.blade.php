@@ -61,25 +61,25 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="" class="col-md-3">Transportation method</label>
-                        <div class="col-md-9">
-                            @foreach( config('visa.transport_type') as $key => $text )
-                                <label for="port-{{ $key }}">
-                                    <input {{ $loop->index == 0 ? 'checked' : '' }} id="port-{{ $key }}" type="radio" name="transport_type" value="{{ $key }}" />
-                                    {{ $text }}
-                                </label>
-                            @endforeach
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="" class="col-md-3">Transportation method</label>--}}
+                        {{--<div class="col-md-9">--}}
+                            {{--@foreach( config('visa.transport_type') as $key => $text )--}}
+                                {{--<label for="port-{{ $key }}">--}}
+                                    {{--<input {{ $loop->index == 0 ? 'checked' : '' }} id="port-{{ $key }}" type="radio" name="transport_type" value="{{ $key }}" />--}}
+                                    {{--{{ $text }}--}}
+                                {{--</label>--}}
+                            {{--@endforeach--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
 
                     <div class="form-group row">
                         <label for="" class="col-md-3"> Port of arrival</label>
                         <div class="col-md-9">
                             <select onchange="updateCart(this, 'transport')" name="transport" class="form-control" id="">
-                                @foreach( \Modules\Visa\Entities\Transportation::where('transport_type','airport')->get() as $port )
-                                    <option {{ $port['id'] == $port->id ? 'selected' : '' }} value="{{ $port->id }}">{{ $port->transport_name }}</option>
+                                @foreach( \Modules\Visa\Entities\Transportation::orderBy('transport_type')->get() as $port )
+                                    <option {{ $port['id'] == $port->id ? 'selected' : '' }} value="{{ $port->id }}">{{ strtoupper($port->transport_type).' - '. $port->transport_name }}</option>
                                 @endforeach
                             </select>
                         </div>

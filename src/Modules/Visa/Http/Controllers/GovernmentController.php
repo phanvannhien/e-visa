@@ -20,4 +20,12 @@ class GovernmentController extends Controller
         $data = Government::findOrFail($id);
         return view('visa::government.edit', [ 'data' => $data ] );
     }
+
+    public function update(Request $request, $id){
+        $data = Government::findOrFail($id);
+        $data->visa_fee = $request->input('visa_fee');
+        $data->save();
+
+        return redirect()->route('government.edit', $id)->with('status','Success');
+    }
 }

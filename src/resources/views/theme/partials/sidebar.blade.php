@@ -30,8 +30,10 @@ $sidebar_payment = \App\Models\Block::where('block_code', 'sidebar_payment' )->f
 
 <div class="card">
     <div class="card-body text-center">
+        <a href="{{ route('make.payment') }}" class="btn btn-warning btn-block btn-lg mb-3"><i class="fab fa-cc-paypal"></i> MAKE PAYMENT</a>
         @if( $sidebar_payment )
             {!! $sidebar_payment->block_content !!}
         @endif
     </div>
 </div>
+

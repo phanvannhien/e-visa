@@ -9,7 +9,7 @@
     <!-- Main content -->
     <section class="content">
 
-        <form method="POST" action="{{ route('country.update', $data->id ) }}" id="" class="">
+        <form method="POST" action="{{ route('government.update', $data->id ) }}" id="" class="">
             <p class="clearfix">
                 <a href="{{ route('government.index') }}" class="btn btn-sm btn-success">
                     <i class="fa fa-backward"></i>

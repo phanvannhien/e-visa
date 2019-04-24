@@ -90,7 +90,7 @@ $total = $processing_fee['price'] + ( $service_fee['price'] * $quantity );
     @endif
     <p class="mb-0 clearfix">
         <strong class="float-left">Total Fees</strong>
-        <span class="total float-right text-danger">{{ config('visa.price_prefix') }} 
+        <span class="total float-right text-danger big-price">{{ config('visa.price_prefix') }} 
             <?php
                 
                 if( session()->has('cart.discount') ){

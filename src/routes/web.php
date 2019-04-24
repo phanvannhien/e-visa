@@ -40,6 +40,10 @@ Route::get('/processing.html','HomeController@processing')->name('processing.vis
 Route::get('/contact-us.html','HomeController@contact')->name('company.contact');
 Route::post('/contact-us.html','HomeController@contactSave')->name('company.contact.post');
 
+Route::get('/make-payment','MakePaymentController@index' )->name('make.payment');
+Route::post('/check-requirements/find','CheckRequireController@find' )->name('check.requirement.find');
+Route::get('/check-requirements/{code}','CheckRequireController@index' )->name('check.requirement');
+
 
 // Page
 Route::get('/{slug}-t{id}.html', 'HomeController@pageDetail')->where([
@@ -116,7 +120,7 @@ Route::group([
     ], function(){
 
         Route::get('/', 'Admin\AdminController@index')->name('admin.dashboard');
-        Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
+        Route::post('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
 
 
         Route::group([

@@ -16,6 +16,20 @@ Breadcrumbs::for('login', function ($trail) {
 });
 
 
+Breadcrumbs::for('make_payment', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Make Payment');
+});
+
+
+Breadcrumbs::for('check_require', function ($trail, $country) {
+    $trail->parent('home');
+    $trail->push('Check Requirement');
+    $trail->push('How to apply for an India e-Visa from '.$country->value );
+});
+
+
+
 
 Breadcrumbs::for('page', function ($trail, $page) {
     $trail->parent('home');

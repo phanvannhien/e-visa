@@ -107,6 +107,14 @@
       gtag('js', new Date());
       gtag('config', 'IDDDD');
     </script>
+    <script>
+        <?php
+            $ajax = array(
+                'get_port' => route('ajax.get.transport')
+            )
+            ?>
+        var ajax = @json($ajax)
+    </script>
 </head>
 <body>
     <!-- Load Facebook SDK for JavaScript -->

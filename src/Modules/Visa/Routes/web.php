@@ -19,6 +19,7 @@ Route::group([
 ], function(){
 
     Route::resource('transportation','TransportationController');
+    Route::get('ajax/transportation-type', 'TransportationController@getTransportType')->name('ajax.get.transport');
     Route::resource('government','GovernmentController', [
         'only' => ['index', 'edit','update']
     ]);

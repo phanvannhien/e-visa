@@ -47,7 +47,8 @@
             </div>
             <div id="side-bar" class="col-md-4">
                 <div class="side-nav">
-                    <div class="list-group">
+                    @include('theme.partials.sidebar')
+                    <div class="list-group mt-3">
                         @foreach( $categories as $cat )
                             <?php
                             $schemaSiteNavigationElement['name'][] = $cat->category_name;

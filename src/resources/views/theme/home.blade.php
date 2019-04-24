@@ -24,15 +24,40 @@
                                    id="nav-{{ $page->block_code }}-tab" data-toggle="tab" href="#nav-{{ $page->block_code }}" role="tab"
                                    aria-controls="nav-{{ $page->block_code }}" aria-selected="true">{{ $page->block_title }}</a>
                             @endforeach
+                            <a class="nav-item bg-white nav-link show"
+                               id="nav-home_check_requirement-tab" data-toggle="tab" href="#nav-home_check_requirement"
+                               role="tab" aria-controls="nav-home_check_requirement" aria-selected="false">Who need visa?</a>
 
                         </div>
                     </nav>
                     <div class="tab-content tab-content p-3 bg-white clearfix" id="nav-tabContent">
                         @foreach( $home_blocks as $page )
-                            <div class="tab-pane fade show {{ $loop->index == 0 ? 'active' : '' }}" id="nav-{{ $page->block_code }}" role="tabpanel" aria-labelledby="nav-{{ $page->block_code }}-tab">
-                                {!! $page->block_content !!}
-                            </div>
+                        <div class="tab-pane fade show {{ $loop->index == 0 ? 'active' : '' }}" id="nav-{{ $page->block_code }}" role="tabpanel" aria-labelledby="nav-{{ $page->block_code }}-tab">
+                            {!! $page->block_content !!}
+                        </div>
                         @endforeach
+                        <div class="tab-pane fade show" id="nav-home_check_requirement" role="tabpanel" aria-labelledby="nav-home_check_requirement">
+                            <h2 class="text-center text-uppercase mt-3 mb-4 text-warning">CHECK IF YOU NEED A E-VISA TO INDIA</h2>
+                            <div class="row">
+                                <div class="col-lg-8 offset-lg-2">
+                                    <form action="{{ route('check.requirement.find') }}" class="form form-inline mb-4" method="post">
+                                        @csrf
+                                        <select name="code" class="form-control" id="">
+                                            @foreach( \App\Models\Countries::orderBy('value')->get() as $country )
+                                                <option value="{{ $country->code }}">{{ $country->value }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn btn-primary btn-info">CHECK NOW</button>
+                                    </form>
+                                    <ul>
+                                        <li>India Embassy List</li>
+                                        <li>India Visa Exemption</li>
+                                        <li>Diplomatic passport (No need)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
