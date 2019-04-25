@@ -9,5 +9,12 @@ return [
     'service_type' => [
         'visa_fee',
         'visa_processing',
-    ]
+    ],
+    'make_payment' => [
+        'government_fee' => 'Government fee',
+        'visa_fee' => 'Visa fee',
+        'other' => 'Other'
+    ],
+
+
 ];

@@ -46,7 +46,9 @@ class UserController extends Controller
 
     public function show( $id ){
         $user = User::findOrFail( $id );
-        return view('admin.users.show', compact('user'));
+        $orders = $user->orders()->paginate();
+        $make_payments = $user->make_payments()->paginate();
+        return view('admin.users.show', compact('user','orders', 'make_payments'));
     }
 
     public function store( Request $request){

@@ -40,7 +40,11 @@ Route::get('/processing.html','HomeController@processing')->name('processing.vis
 Route::get('/contact-us.html','HomeController@contact')->name('company.contact');
 Route::post('/contact-us.html','HomeController@contactSave')->name('company.contact.post');
 
-Route::get('/make-payment','MakePaymentController@index' )->name('make.payment');
+Route::get('/make-payment','MakePaymentController@index' )->name('make.payment')->middleware('auth');
+Route::post('/make-payment','MakePaymentController@post' )->name('make.payment.post')->middleware('auth');
+Route::get('/make-payment/sucess','MakePaymentController@success' )->name('make.payment.success')->middleware('auth');
+
+
 Route::post('/check-requirements/find','CheckRequireController@find' )->name('check.requirement.find');
 Route::get('/check-requirements/{code}','CheckRequireController@index' )->name('check.requirement');
 

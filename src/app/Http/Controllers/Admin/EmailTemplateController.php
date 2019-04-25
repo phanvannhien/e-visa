@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Modules\Visa\Entities\Booking;
 use Validator;
 
+use Modules\Visa\Entities\Payment;
+
 class EmailTemplateController extends Controller
 {
 
@@ -99,6 +101,9 @@ class EmailTemplateController extends Controller
         $template = MailTemplate::findOrFail($id);
         $class = $template->template_class;
 
+        if( $class == 'App\Mail\MakePaymentEmail' ){
+            $order = Payment::first();
+        }
 
         return new $class( $order );
     }

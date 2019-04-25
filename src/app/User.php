@@ -13,7 +13,8 @@ use App\Models\UserRecentView;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Modules\Visa\Entities\Booking;
+use Modules\Visa\Entities\Payment;
 
 
 class User extends Authenticatable
@@ -102,7 +103,11 @@ class User extends Authenticatable
     }
 
     public function orders(){
-        return $this->hasMany( Order::class );
+        return $this->hasMany( Booking::class );
+    }
+
+    public function make_payments(){
+        return $this->hasMany( Payment::class, 'user_id' );
     }
 
     public function country(){

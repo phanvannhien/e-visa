@@ -60,7 +60,6 @@
                         </tr>
                     @endforeach
                     </tbody>
-
                 </table>
             </div>
             <div class="box-footer text-center">

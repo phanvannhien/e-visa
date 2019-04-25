@@ -2,7 +2,7 @@
 
 Dear <strong>{{ $order->user->full_name }}</strong>,
 
-Thanks for choosing {{ url('/') }}
+Customer ID: # {{ $order->user->id }}
 
 
 **Please note: This is not India ETA. Please make sure that you will check your email frequently to <strong style="color: red">UPDATE YOUR VISA STATUS</strong>.
@@ -11,15 +11,92 @@ At present, the Indian Immigration Department needs your help on giving some inf
 
 We just process your visa when you finished the payment and provide all the documents as we required. Processing time will be counting from all documents received.
 
+Your payment: <strong style="color: red">#{{ $order->id }}</strong>
 
-Please provide us all information below by email and attachment to address: <a href="mailto:{{ app('Configuration')->get('email') }}">{{ app('Configuration')->get('email') }}</a>
+<div class="table">
+    <table cellspacing="0" cellpadding="5" class="">
+        <tr>
+            <td>Full name</td>
+            <td>{{ $order->user->full_name }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ $order->user->email }}</td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td>{{ $order->amount }}</td>
+        </tr>
+        <tr>
+            <td>Payment Date</td>
+            <td>{{ $order->created_at }}</td>
+        </tr>
+        <tr>
+            <td>Payment Methods</td>
+            <td>{{ $order->payment_method }}</td>
+        </tr>
+        <tr>
+            <td>Payment for</td>
+            <td>{{ $order->payment_for }}</td>
+        </tr>
+        <tr>
+            <td>Note for payment</td>
+            <td>{{ $order->note }}</td>
+        </tr>
+    </table>
+</div>
 
-<strong style="color:rgb(255,0,0)">Please provide us all information below:</strong>
-@component('mail::panel')
-{!! $order->service->email_require_content !!}
-@endcomponent
+<p style="color:red">Note: In your credit/debit card bank statement for this transaction will show: Paypal*GLOBAL VISA, Paypal*GLOBAL VISA SERVICE.</p>
 
-(Acceptable formats include .jpg, .png, .gif and .pdf files. The files may not be larger than 1MB each.)
+## DEVICE INFORMATION:
+
+<div class="table">
+    <table cellspacing="0" cellpadding="5" class="">
+        <tr>
+            <td>HTTP USER AGENT</td>
+            <td>{{ $order->user_agent }}</td>
+        </tr>
+        <tr>
+            <td>IP</td>
+            <td>{{ $order->ip }}</td>
+        </tr>
+
+    </table>
+</div>
+
+
+## Account informations
+<div class="table">
+    <table cellspacing="0" cellpadding="5" class="">
+        <tr>
+            <td>ID</td>
+            <td><span class="label label-info">{{ $order->user->id }}</span></td>
+        </tr>
+        <tr>
+            <td>Full name</td>
+            <td>{{ $order->user->full_name }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ $order->user->email }}</td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td>{{ $order->user->country->value }}</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>{{ $order->user->address }}</td>
+        </tr>
+        <tr>
+            <td>Telephone</td>
+            <td>{{ $order->user->phone }}</td>
+        </tr>
+    </table>
+</div>
+
+Please feel free to contact us via email: {{ app('Configuration')->get('email') }} if you have any further questions or concerns.
+
 
 Thank you for your cooperation.
 Best Regards,

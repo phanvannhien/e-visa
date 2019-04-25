@@ -18,7 +18,9 @@
                     Please fill in with your order information
                 </div>
 
-                <form action="">
+                @include('theme.partials.messages')
+
+                <form action="{{ route('make.payment.post') }}" method="post">
                     @csrf
                     <div class="form-group row">
                         <label for="" class="col-md-3">Amount <span class="text-danger">*</span> </label>
