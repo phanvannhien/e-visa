@@ -345,8 +345,10 @@ class VisaBookingController extends Controller
 
             DB::commit();
 
+            $when = now()->addMinutes(2);
+
             Mail::to( auth()->user()->email )
-                ->queue(new PaymentSuccessEmail($order));
+                ->later($when, new PaymentSuccessEmail($order));
 
         }catch (Exception $e){
             DB::rollback();

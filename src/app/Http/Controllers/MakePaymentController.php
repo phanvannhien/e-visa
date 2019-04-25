@@ -126,8 +126,10 @@ class MakePaymentController extends Controller
             $makePayment->status = 'paid' ;
             $makePayment->save();
 
+            $when = now()->addMinutes(2);
+
             Mail::to( auth()->user()->email )
-                ->queue(new \App\Mail\MakePaymentEmail($makePayment));
+                ->later($when, new \App\Mail\MakePaymentEmail($makePayment));
 
             return redirect()->route('make.payment')->with('status', 'Success! Thanks for ypur payment');
 
