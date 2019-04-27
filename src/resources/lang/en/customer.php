@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'no_order' => 'No orders',
+    'gender' => 'Gender',
     'favorite' => 'Favorite',
     'address' => 'Address',
     'no_address' => 'You do not have any address',
