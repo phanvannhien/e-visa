@@ -96,7 +96,7 @@
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','IDDDD');</script>
+    })(window,document,'script','dataLayer','{{ app('Configuration')->get('google_tag_manager_id') }}');</script>
     <!-- End Google Tag Manager -->
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -105,7 +105,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'IDDDD');
+      gtag('config', '{{ app('Configuration')->get('ga_id') }}');
     </script>
     <script>
         <?php
@@ -117,15 +117,10 @@
     </script>
 </head>
 <body>
-    <!-- Load Facebook SDK for JavaScript -->
     <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    <script async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId={{ app('Configuration')->get('facebook_app_id') }}&autoLogAppEvents=1"></script>
+
     @php
         $primaryNav = \App\Models\Menu::where('menu_code','primary')->first();
         $primaryNavItems = $primaryNav->menu_items()->where('menu_status', 1)->get()->toTree();
