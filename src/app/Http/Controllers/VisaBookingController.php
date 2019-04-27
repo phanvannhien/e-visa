@@ -47,13 +47,18 @@ class VisaBookingController extends Controller
 
     public function __construct()
     {
-        /** PayPal api context **/
-        $paypal_conf = \Config::get('paypal');
+
         $this->_api_context = new ApiContext(new OAuthTokenCredential(
-                $paypal_conf['client_id'],
-                $paypal_conf['secret'])
-        );
-        $this->_api_context->setConfig($paypal_conf['settings']);
+            app('Configuration')->get('client_id'),
+            app('Configuration')->get('secret')
+        ));
+        $this->_api_context->setConfig([
+            'mode' => app('Configuration')->get('paypal_mode'),
+            'http.ConnectionTimeOut' => 60,
+            'log.LogEnabled' => true,
+            'log.FileName' => storage_path() . '/logs/paypal.log',
+            'log.LogLevel' => 'ERROR'
+        ]);
     }
 
 

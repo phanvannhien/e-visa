@@ -9,7 +9,8 @@ return[
         'seo' => 'SEO',
         'product' => 'Product',
         'blog' => 'Blog',
-        'email' => 'Email'
+        'email' => 'Email',
+        'payment' => 'Payment',
     ],
     'type' => [
         'text',
