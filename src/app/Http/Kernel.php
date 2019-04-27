@@ -31,7 +31,7 @@ class Kernel extends HttpKernel
 //        \RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace::class,
 
         // force to https
-//        \App\Http\Middleware\HttpsProtocol::class
+        \App\Http\Middleware\HttpsProtocol::class
 
     ];
 
