@@ -17,11 +17,11 @@ return [
          * Webmaster tags are always added.
          */
         'webmaster_tags' => [
-            'google'    => 'Vs8HiKSpvEzgmyWHmD33MwJlFY-RLDd-2jKAhB1Hrrg',
-            'bing'      => '5704D520D8E838ABF38F6AF2FCB4478F',
+            'google'    => '',
+            'bing'      => '',
             'alexa'     => null,
-            'pinterest' => '33d714c20826c7ee552f11eadd7df8a6',
-            'yandex'    => '461ecaf782077905',
+            'pinterest' => '',
+            'yandex'    => '70f55b2112c5b29a',
         ],
     ],
     'opengraph' => [
@@ -43,7 +43,7 @@ return [
          */
         'defaults' => [
           'card'        => 'summary',
-          'site'        => '@NhienPhanVan',
+          'site'        => '@Evisa',
         ],
     ],
 ];
